@@ -18,6 +18,11 @@ class Game():
         But that's a problem for later?
         """
         # Make a plain. We can implement logic later to choose our map type.
+        plain = Plain()
+        # Make this a user input
+        plain.initialize(10, 10)
+        # Yay this works
+        plain.render()
 
 class Map(ABC):
     @abstractmethod
@@ -43,34 +48,89 @@ class Plain(Map):
     def initialize(self, width, height):
         self.width = width
         self.height = height
-        # Fill out the grid; I'm thinking a dictionary of dictionaries that each
-        # have a map tile.
-        print("Hi yes I'm a Plain.")
+        self.grid = {}
+        for i in range(width):
+            self.grid[i] = {}
+            for j in range(height):
+                # This is actually bad because it's using a specific class
+                # and not an abstraction.
+                self.grid[i][j] = StandardMapTile()
+                self.grid[i][j].set_coordinates(i, j)
 
     def render(self):
-        print("This actually prints the map, you FOOL.")
+        """
+        Coordinate numbers would be real nice to have, but that
+        can be a strech goal and or come later.
+        """
+        if not self.grid:
+            print("There is no map you display! AUGH!")
+        else:
+            for i in range(self.width):
+                print(f"\n", end="")
+                for j in range(self.height):
+                    if self.grid[i][j].occupant:
+                        print("|{}".format(self.grid[i][j].occupant.icon), end="")
+                    else:
+                        print("| ", end="")
 
-class MapTile():
+class MapTile(ABC):
     """
     Future considerations for MapTiles:
     - Are they occupied?
     - Are there terrain effects?
     - Is it passible terrain?
     """
+    @abstractmethod
     def __init__(self):
         self.x = None
         self.y = None
         self.coordinates = None
+        self.occupant = None
+
+    @abstractmethod
+    def set_coordinates(self, x, y):
+        self.x = x
+        self.y = y
+        self.coordinates = (x, y)
+
+    @abstractmethod
+    def set_occupant(self, occupant):
+        # TODO - somehow force the "occupant" to be displayable.
+        # I.E., occupant MUST have a ".icon".
+        # Maybe do this later?
+        self.occupant = occupant
+
+class StandardMapTile(MapTile):
+    """
+    Note to self - I have code duplication here from the
+    MapTile class, but I figured I needed a map tile abstraction
+    for the initialization method. I don't know if I need this?
+    """
+    def __init__(self):
+        self.x = None
+        self.y = None
+        self.coordinates = None
+        self.occupant = None
 
     def set_coordinates(self, x, y):
         self.x = x
         self.y = y
         self.coordinates = (x, y)
 
+    def set_occupant(self, occupant):
+        self.occupant = occupant
+
 # The main function where everything starts.
 def main():
     map_game = Game()
     map_game.run()
+    # Should characters have a maptile object?
+    # What about the map they're on?
+    # Maybe I could just give them a "position" attribute...
+    # But even so, moving them is going to require the map (maptiles plural) to be updated.
+    # MAYBE I PUT "MOVE CHARACTERS" on the map command?
+    # I think maybe we let the game handle all of that, and then it updates the map accordingly.
+    # Ugh that's going to be messy.
 
 # Actually run this blasted thing.
 if __name__ == "__main__":
