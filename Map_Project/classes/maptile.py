@@ -1,3 +1,5 @@
+from classes.abstract.character import Character
+
 class MapTile():
     """
     Future considerations for MapTiles:
@@ -11,12 +13,12 @@ class MapTile():
         self.coordinates = None
         self.occupant = None
 
-    def set_coordinates(self, x, y):
+    def set_coordinates(self, x: int, y: int):
         self.x = x
         self.y = y
         self.coordinates = (x, y)
 
-    def set_occupant(self, occupant):
+    def set_occupant(self, occupant: Character):
         # TODO - somehow force the "occupant" to be displayable.
         # I.E., occupant MUST have a ".icon".
         # Maybe do this later?

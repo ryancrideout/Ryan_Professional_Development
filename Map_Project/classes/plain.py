@@ -7,15 +7,13 @@ class Plain(Map):
         self.height = None
         self.grid = None
 
-    def initialize(self, width, height):
+    def initialize(self, width: int, height: int):
         self.width = width
         self.height = height
         self.grid = {}
         for i in range(width):
             self.grid[i] = {}
             for j in range(height):
-                # This is actually bad because it's using a specific class
-                # and not an abstraction.
                 self.grid[i][j] = MapTile()
                 self.grid[i][j].set_coordinates(i, j)
 
