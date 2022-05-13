@@ -54,7 +54,7 @@ class Plain(Map):
             for j in range(height):
                 # This is actually bad because it's using a specific class
                 # and not an abstraction.
-                self.grid[i][j] = StandardMapTile()
+                self.grid[i][j] = MapTile()
                 self.grid[i][j].set_coordinates(i, j)
 
     def render(self):
@@ -73,7 +73,7 @@ class Plain(Map):
                     else:
                         print("| ", end="")
 
-class MapTile(ABC):
+class MapTile():
     """
     Future considerations for MapTiles:
     - Are they occupied?
@@ -100,12 +100,14 @@ class MapTile(ABC):
         # Maybe do this later?
         self.occupant = occupant
 
+# Unsure if we need this?
+"""
 class StandardMapTile(MapTile):
-    """
-    Note to self - I have code duplication here from the
-    MapTile class, but I figured I needed a map tile abstraction
-    for the initialization method. I don't know if I need this?
-    """
+    
+    # Note to self - I have code duplication here from the
+    # MapTile class, but I figured I needed a map tile abstraction
+    # for the initialization method. I don't know if I need this?
+    
     def __init__(self):
         self.x = None
         self.y = None
@@ -119,6 +121,7 @@ class StandardMapTile(MapTile):
 
     def set_occupant(self, occupant):
         self.occupant = occupant
+"""
 
 # The main function where everything starts.
 def main():
@@ -131,6 +134,9 @@ def main():
     # MAYBE I PUT "MOVE CHARACTERS" on the map command?
     # I think maybe we let the game handle all of that, and then it updates the map accordingly.
     # Ugh that's going to be messy.
+
+    # Okay new plan - let the game handle movement, but the player classes will have instructions
+    # on how to move.
 
 # Actually run this blasted thing.
 if __name__ == "__main__":
