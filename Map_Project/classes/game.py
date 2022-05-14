@@ -14,8 +14,8 @@ class Game():
 
     def run(self):
         """
-        Okay we're going to have to figure out how to initialize this whole thing...
-        But that's a problem for later?
+        This runs the game as a whole. There might be an more appropriate place
+        for this, but for now I'm putting all of the logic in the "run" method.
         """
         # Make a plain. We can implement logic later to choose our map type.
         plain = Plain()
@@ -105,3 +105,10 @@ class Game():
             return True
         else:
             return False
+
+    def initialize_map(self):
+        x_cord = input("Hey give me an X coordinate you... you... FIEND!")
+        # Empty print statements are here for line formatting and making things easier to read.
+        print()
+        y_cord = input("AND NOW GIVE ME A Y COORDINATE!")
+        print()
