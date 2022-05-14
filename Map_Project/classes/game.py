@@ -47,56 +47,6 @@ class Game():
 
         print("Goodbye, human.")
 
-        # leonidas = Plebian()
-        # # Set coordinates, but make this a user input.
-        # leonidas.set_position(3, 3)
-        # self.add_entity_to_map(leonidas)
-        # # plain.render()
-        # # print()
-
-        # self.move_character(leonidas, "South")
-        # # plain.render()
-        # # print()
-
-        # ryan = Jester()
-        # ryan.set_position(5, 5)
-        # self.add_entity_to_map(ryan)
-        # self.map.render()
-        # print()
-
-        # self.move_character(ryan, "Up")
-        # self.map.render()
-        # print()
-
-        # self.move_character(ryan, "R")
-        # self.map.render()
-        # print()
-
-        # self.move_character(ryan, "Left")
-        # self.map.render()
-        # print()
-
-        # TODO: Flesh this out some more, actually make this a "game",
-        #       ask user for prompts and then add characters and then
-        #       make them move.
-
-    # def move_character(self, character: Character, direction: str):
-    #     desired_position = character.movement_action(direction)
-    #     new_x_cord = desired_position[0]
-    #     new_y_cord = desired_position[1]
-
-    #     # Check if desired spot is occupied.
-    #     # TODO: Out of bounds error checking.
-    #     if self.check_if_occupied(new_x_cord, new_y_cord):
-    #         print("Cannot move to location! Already occupied.")
-    #     else:
-    #         # Move the character. First, remove character from map.
-    #         self.remove_entity_from_map(character)
-    #         # Set the character's new position
-    #         character.set_position(new_x_cord, new_y_cord)
-    #         # Add the character back to the map.
-    #         self.add_entity_to_map(character)
-
     def add_entity_to_map(self, entity):
         """
         This takes an entity (E.G., Character) and adds it to the map.
@@ -136,6 +86,7 @@ class Game():
         width = input("Hey give me an width you... you... FIEND - ")
         height = input("AND NOW GIVE ME A HEIGHT - ")
         print("Here are the coordinates you gave - ({}, {})".format(width, height))
+        print()
 
         # Make a plain. We can implement logic later to choose our map type.
         plain = Plain()

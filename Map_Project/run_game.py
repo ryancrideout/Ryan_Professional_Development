@@ -8,8 +8,6 @@ Things to do:
   - Make some character classes
 - Cleanup, put these into folders and stuff.
 """
-from abc import ABC, abstractmethod
-
 from classes.game import Game
 
 # The main function where everything starts.
