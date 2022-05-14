@@ -12,7 +12,6 @@ from abc import ABC, abstractmethod
 
 from classes.game import Game
 
-
 # The main function where everything starts.
 def main():
     map_game = Game()
