@@ -16,8 +16,6 @@ from classes.game import Game
 def main():
     map_game = Game()
     map_game.run()
-    # Okay new plan - let the game handle movement, but the player classes will have instructions
-    # on how to move.
 
 # Actually run this blasted thing.
 if __name__ == "__main__":

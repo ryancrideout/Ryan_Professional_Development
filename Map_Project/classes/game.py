@@ -6,6 +6,12 @@ from classes.abstract.character import Character
 
 
 class Game():
+    TERMINATE = ["stop", "s", "exit", "terminate", "t"]
+    RENDER = ["r", "render", "p", "print"]
+    HELP = ["h", "help"]
+    CREATE = ["create", "c", "character"]
+    MOVE = ["move", "m"]
+
     def __init__(self):
         self.map = None
 
@@ -17,15 +23,21 @@ class Game():
         This runs the game as a whole. There might be an more appropriate place
         for this, but for now I'm putting all of the logic in the "run" method.
         """
-        # Make a plain. We can implement logic later to choose our map type.
-        plain = Plain()
-        # Make this a user input
-        plain.initialize(10, 10)
+        self.initialize_map()
 
-        self.set_map(plain)
+        user_input = input("Now give me a command, type 'help' for a list of available commands - ")
+        while user_input.lower() not in self.TERMINATE:
+            if user_input.lower() in self.RENDER:
+                self.map.render()
+            if user_input.lower() in self.HELP:
+                self.display_game_commands()
+            if user_input.lower() in self.CREATE:
+                print("Quoi")
+            if user_input.lower() in self.MOVE:
+                print("Shoryuken")
+            input("Now give me another command - type 'help' for help")
 
-        # Render the map
-        # plain.render()
+        print("Goodbye, human.")
 
         leonidas = Plebian()
         # Set coordinates, but make this a user input.
@@ -41,19 +53,19 @@ class Game():
         ryan = Jester()
         ryan.set_position(5, 5)
         self.add_entity_to_map(ryan)
-        plain.render()
+        self.map.render()
         print()
 
         self.move_character(ryan, "Up")
-        plain.render()
+        self.map.render()
         print()
 
         self.move_character(ryan, "R")
-        plain.render()
+        self.map.render()
         print()
 
         self.move_character(ryan, "Left")
-        plain.render()
+        self.map.render()
         print()
 
         # TODO: Flesh this out some more, actually make this a "game",
@@ -107,8 +119,38 @@ class Game():
             return False
 
     def initialize_map(self):
-        x_cord = input("Hey give me an X coordinate you... you... FIEND!")
-        # Empty print statements are here for line formatting and making things easier to read.
+        """
+        TODO - I could flesh this out with more robust checks, but
+               for now I'm not going to. I know how to, but I won't
+               touch it until the need arises.
+        """
+        width = input("Hey give me an width you... you... FIEND - ")
+        height = input("AND NOW GIVE ME A HEIGHT - ")
+        print("Here are the coordinates you gave - ({}, {})".format(width, height))
+
+        # Make a plain. We can implement logic later to choose our map type.
+        plain = Plain()
+        plain.initialize(int(width), int(height))
+
+        self.set_map(plain)
+
+    def create_character(self):
+        """
+        Upfront - I did this in a really bad and lazy way because I just ran
+        out of steam. The big TO do is to go clean this up later.
+        """
+        # I think we'll need character names and then put that data into a dictionary.
+        print("Shoryuken.")
+
+    def move_character(self):
+        print("Shoryuken.")
+
+    def display_game_commands(self):
+        print("These are the available commands:")
         print()
-        y_cord = input("AND NOW GIVE ME A Y COORDINATE!")
+        print("'terminate' - ends the program.")
+        print("'render' - displays the map.")
+        print("'help' - displays the game commands.")
+        print("'create' - creates a character and puts it on the map.")
+        print("'move' - moves a character on a map into a particular direction.")
         print()
