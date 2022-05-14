@@ -42,3 +42,4 @@ class Plain(Map):
                     else:
                         print("| ", end="")
                 print("|", end="")
+        print()

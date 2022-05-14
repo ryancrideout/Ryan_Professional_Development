@@ -15,12 +15,17 @@ class Character(ABC):
         self.y = None
         self.position = None
         self.icon = "?"
+        self.name = None
 
     @abstractmethod
     def set_position(self, x, y):
         self.position = (x, y)
         self.x = x
         self.y = y
+
+    @abstractmethod
+    def set_name(self, name):
+        self.name = name
 
     @abstractmethod
     def movement_action(self):
