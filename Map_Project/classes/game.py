@@ -28,16 +28,22 @@ class Game():
 
         user_input = input("Now give me a command, type 'help' for a list of available commands - ")
         while user_input.lower() not in self.TERMINATE:
+
             if user_input.lower() in self.RENDER:
                 self.map.render()
+
             if user_input.lower() in self.HELP:
                 self.display_game_commands()
+
             if user_input.lower() in self.CREATE:
                 character = self.create_character()
                 self.set_character_position(character)
+                self.add_entity_to_map(character)
+
             if user_input.lower() in self.MOVE:
-                print("Shoryuken")
-            input("Now give me another command - type 'help' for help")
+                self.move_character()
+
+            user_input = input("Now give me another command - type 'help' for help - ")
 
         print("Goodbye, human.")
 
@@ -74,22 +80,22 @@ class Game():
         #       ask user for prompts and then add characters and then
         #       make them move.
 
-    def move_character(self, character: Character, direction: str):
-        desired_position = character.movement_action(direction)
-        new_x_cord = desired_position[0]
-        new_y_cord = desired_position[1]
+    # def move_character(self, character: Character, direction: str):
+    #     desired_position = character.movement_action(direction)
+    #     new_x_cord = desired_position[0]
+    #     new_y_cord = desired_position[1]
 
-        # Check if desired spot is occupied.
-        # TODO: Out of bounds error checking.
-        if self.check_if_occupied(new_x_cord, new_y_cord):
-            print("Cannot move to location! Already occupied.")
-        else:
-            # Move the character. First, remove character from map.
-            self.remove_entity_from_map(character)
-            # Set the character's new position
-            character.set_position(new_x_cord, new_y_cord)
-            # Add the character back to the map.
-            self.add_entity_to_map(character)
+    #     # Check if desired spot is occupied.
+    #     # TODO: Out of bounds error checking.
+    #     if self.check_if_occupied(new_x_cord, new_y_cord):
+    #         print("Cannot move to location! Already occupied.")
+    #     else:
+    #         # Move the character. First, remove character from map.
+    #         self.remove_entity_from_map(character)
+    #         # Set the character's new position
+    #         character.set_position(new_x_cord, new_y_cord)
+    #         # Add the character back to the map.
+    #         self.add_entity_to_map(character)
 
     def add_entity_to_map(self, entity):
         """
@@ -126,6 +132,7 @@ class Game():
                for now I'm not going to. I know how to, but I won't
                touch it until the need arises.
         """
+        print("We're going to make a map. We're going to need width and height.")
         width = input("Hey give me an width you... you... FIEND - ")
         height = input("AND NOW GIVE ME A HEIGHT - ")
         print("Here are the coordinates you gave - ({}, {})".format(width, height))
@@ -150,7 +157,7 @@ class Game():
         else:
             print("Unidentified character type. You get a Plebian.")
 
-        name = input("Please give the character a name.")
+        name = input("Please give the character a name. - ")
         character.set_name(name)
         self.characters[character.name] = character
 
@@ -161,14 +168,30 @@ class Game():
         print("Alrigt we need an x and y coordinate to place this character.")
         x_cord = input("X COORDINATE. NOW. - ")
         y_cord = input("NOW A Y COORDINATE - ")
-        character.set_position(x_cord, y_cord)
+        character.set_position(int(x_cord), int(y_cord))
 
     def move_character(self):
         # TODO - Need to add error checking.
         character_name = input("Please give the name of the character you'd like to move - ")
         character = self.characters[character_name]
-        direction = input("What direction would you like to move {}? -".format(character.name))
-        self.move_character(character, direction)
+        direction = input("What direction would you like to move {}? - ".format(character.name))
+        # self.move_character(character, direction)
+
+        desired_position = character.movement_action(direction)
+        new_x_cord = desired_position[0]
+        new_y_cord = desired_position[1]
+
+        # Check if desired spot is occupied.
+        # TODO: Out of bounds error checking.
+        if self.check_if_occupied(new_x_cord, new_y_cord):
+            print("Cannot move to location! Already occupied.")
+        else:
+            # Move the character. First, remove character from map.
+            self.remove_entity_from_map(character)
+            # Set the character's new position
+            character.set_position(new_x_cord, new_y_cord)
+            # Add the character back to the map.
+            self.add_entity_to_map(character)
 
     def display_game_commands(self):
         print("These are the available commands:")
