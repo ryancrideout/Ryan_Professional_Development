@@ -6,11 +6,15 @@ class Jester(Character):
         self.y = None
         self.position = None
         self.icon = "J"
+        self.name = None
 
     def set_position(self, x: int, y: int):
         self.position = (x, y)
         self.x = x
         self.y = y
+
+    def set_name(self, name):
+        self.name = name
 
     def movement_action(self, direction: str):
         """
