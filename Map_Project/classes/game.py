@@ -100,6 +100,12 @@ class Game():
                   we'll be violating some SOLID principles.
         """
         # I think we'll need character names and then put that data into a dictionary.
+        '''
+        # NOTE: If I were running Python 3.10 I could do a switch statement.
+                As it stands I run Python 3.9, so I can't do switch statements.
+                I could do something like this though if I wanted to:
+                https://softwareengineering.stackexchange.com/questions/351389/dynamic-dispatch-from-a-string-python
+        '''
         user_input = input("What kind of character do you want to create? ")
         if user_input.lower() == "plebian":
             character = Plebian()
@@ -126,7 +132,6 @@ class Game():
         character_name = input("Please give the name of the character you'd like to move - ")
         character = self.characters[character_name]
         direction = input("What direction would you like to move {}? - ".format(character.name))
-        # self.move_character(character, direction)
 
         desired_position = character.movement_action(direction)
         new_x_cord = desired_position[0]

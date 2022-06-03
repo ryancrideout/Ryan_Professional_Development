@@ -18,17 +18,17 @@ class Character(ABC):
         self.name = None
 
     @abstractmethod
-    def set_position(self, x, y):
+    def set_position(self, x: int, y: int):
         self.position = (x, y)
         self.x = x
         self.y = y
 
     @abstractmethod
-    def set_name(self, name):
+    def set_name(self, name: str):
         self.name = name
 
     @abstractmethod
-    def movement_action(self):
+    def movement_action(self, direction: str):
       """
       Not entirely satisfied with the name, but essentially the purpose
       of this method is to have a set of instructions for the game on

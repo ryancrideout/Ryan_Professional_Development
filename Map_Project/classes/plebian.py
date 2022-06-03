@@ -13,7 +13,7 @@ class Plebian(Character):
         self.x = x
         self.y = y
 
-    def set_name(self, name):
+    def set_name(self, name: str):
         self.name = name
 
     def movement_action(self, direction: str):
