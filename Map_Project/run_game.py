@@ -1,13 +1,3 @@
-"""
-Things to do:
-- Create a Game Class
-- Create an abstract Map Class
-  - Make a "Plain" Subsclass
-- Create a MapTile Class
-- Create an abstract Character Class
-  - Make some character classes
-- Cleanup, put these into folders and stuff.
-"""
 from classes.game import Game
 
 # The main function where everything starts.
