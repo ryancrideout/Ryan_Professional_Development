@@ -5,6 +5,9 @@ class TestGame(unittest.TestCase):
     '''
     NOTE: We're going to have to figure out how to do user inputs for 
           unit tests.
+
+          Reference this:
+          https://stackoverflow.com/questions/47690020/python-3-unit-tests-with-user-input
     '''
     def test_run(self):
         # This might be hard to test due to user inputs
