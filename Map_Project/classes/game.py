@@ -49,10 +49,13 @@ class Game():
 
         print("Goodbye, human.")
 
-    def add_entity_to_map(self, entity):
+    def add_entity_to_map(self, entity: Character):
         """
         This takes an entity (E.G., Character) and adds it to the map.
         """
+        if self.map == None:
+            raise ValueError("There is no map associated with the game!")
+
         x_cord = entity.x
         y_cord = entity.y
 

@@ -1,17 +1,18 @@
 import unittest
 from classes.game import Game
 from classes.plain import Plain
+from classes.plebian import Plebian
 
 class TestGame(unittest.TestCase):
     '''
-    NOTE: We're going to have to figure out how to do user inputs for 
+    NOTE: We're going to have to figure out how to do user inputs for
           unit tests.
 
           Reference this:
           https://stackoverflow.com/questions/47690020/python-3-unit-tests-with-user-input
     '''
     def test_run(self):
-        # This might be hard to test due to user inputs
+        # Should test this last as this depends on EVERYTHING else.
         pass
 
     def test_set_map_success_case(self):
@@ -36,8 +37,19 @@ class TestGame(unittest.TestCase):
 
             self.assertTrue("Unable to attach Map Type obect to Game." in context.exception)
 
-    def test_add_entity_to_map(self):
-        pass
+    def test_add_entity_to_map_no_map_case(self):
+        '''
+        This should fail as we can't add an entity to a map
+        that doesn't exist.
+        '''
+        chump_game = Game()
+        # Important to note that anyone can be a sexy beast, even the plebians.
+        sexy_beast = Plebian()
+
+        with self.assertRaises(ValueError) as context:
+            chump_game.add_entity_to_map(sexy_beast)
+
+            self.assertTrue("There is no map associated with the game!" in context.exception)
 
     def test_remove_entity_to_map(self):
         pass
