@@ -17,6 +17,8 @@ class Game():
         self.characters = {}
 
     def set_map(self, map: Map):
+        if not isinstance(map, Map):
+            raise TypeError("Unable to attach Map Type obect to Game.")
         self.map = map
 
     def run(self):
