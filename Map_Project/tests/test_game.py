@@ -51,6 +51,21 @@ class TestGame(unittest.TestCase):
 
             self.assertTrue("There is no map associated with the game!" in context.exception)
 
+    def test_add_entity_to_map_non_entity_case(self):
+        '''
+        This should fail as we can't add something to the map that does not
+        have an x and y cordinate.
+        '''
+        chump_game = Game()
+        some_plain = Plain()
+        some_plain.initialize(10, 10)
+        chump_game.set_map(some_plain)
+
+        with self.assertRaises(AttributeError) as context:
+            chump_game.add_entity_to_map(42 + 300)
+
+            self.assertTrue("'int' object has no attribute 'x'" in context.exception)
+
     def test_remove_entity_to_map(self):
         pass
 

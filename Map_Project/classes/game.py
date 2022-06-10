@@ -49,9 +49,13 @@ class Game():
 
         print("Goodbye, human.")
 
-    def add_entity_to_map(self, entity: Character):
+    def add_entity_to_map(self, entity):
         """
         This takes an entity (E.G., Character) and adds it to the map.
+
+        Note the entity doesn't HAVE to be a character, which is why I didn't
+        enforce type checking. I'm just thinking in the future if... say...
+        we added non-character entities like a treasure chest or something.
         """
         if self.map == None:
             raise ValueError("There is no map associated with the game!")
