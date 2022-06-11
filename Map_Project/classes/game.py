@@ -52,13 +52,23 @@ class Game():
     def add_entity_to_map(self, entity):
         """
         This takes an entity (E.G., Character) and adds it to the map.
+
+        Note the entity doesn't HAVE to be a character, which is why I didn't
+        enforce type checking. I'm just thinking in the future if... say...
+        we added non-character entities like a treasure chest or something.
         """
+        if self.map == None:
+            raise ValueError("There is no map associated with the game!")
+
         x_cord = entity.x
         y_cord = entity.y
 
         # Need to do - add error checking.
         if not self.map.grid[x_cord][y_cord].occupant:
             self.map.grid[x_cord][y_cord].set_occupant(entity)
+        else:
+            # AttributeError might not be the appropriate error to raise here?
+            raise AttributeError("Map space is already occupied!")
 
     def remove_entity_from_map(self, entity):
         """
