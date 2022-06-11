@@ -66,6 +66,9 @@ class Game():
         # Need to do - add error checking.
         if not self.map.grid[x_cord][y_cord].occupant:
             self.map.grid[x_cord][y_cord].set_occupant(entity)
+        else:
+            # AttributeError might not be the appropriate error to raise here?
+            raise AttributeError("Map space is already occupied!")
 
     def remove_entity_from_map(self, entity):
         """
