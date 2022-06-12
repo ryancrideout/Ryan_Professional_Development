@@ -1,0 +1,10 @@
+name: Run Unit Tests
+
+on: [push]
+
+jobs:
+  tests:
+    name: Unit Tests
+    steps:
+    - name: Run Tests
+      run: python -m unittest discover -s Map_Project -b
