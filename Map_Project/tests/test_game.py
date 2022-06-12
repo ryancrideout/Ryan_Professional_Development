@@ -330,7 +330,12 @@ class TestGame(unittest.TestCase):
     """
     initialize_map tests.
     """
-    def test_initialize_map(self):
+    def test_initialize_map_SUCCESS_case(self):
+        """
+        Simple case of initializing a map and assigning it to the game.
+
+        Note we're going to have to 
+        """
         pass
 
     """
