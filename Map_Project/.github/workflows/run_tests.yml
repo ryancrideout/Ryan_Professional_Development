@@ -7,4 +7,4 @@ jobs:
     name: Unit Tests
     steps:
     - name: Run Tests
-      run: python -m unittest discover -s Map_Project -b
+      run: python -m unittest discover -b
