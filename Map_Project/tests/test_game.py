@@ -261,7 +261,72 @@ class TestGame(unittest.TestCase):
             chump_game.check_if_occupied(x_cord, y_cord)
 
             self.assertTrue("There is no map associated with the game!" in context.exception)
+
+    def test_check_if_occupied_OUT_OF_BOUNDS_case(self):
+        """
+        Exactly what is described by the title. We should get a key error.
+        """
+        the_game = Game()
+        smallest_plain = Plain()
+        smallest_plain.initialize(3, 3)
+        the_game.set_map(smallest_plain)
+
+        x_cord = 40000
+        y_cord = 40000
+
+        with self.assertRaises(KeyError):
+            the_game.check_if_occupied(x_cord, y_cord)
+
+    def test_check_if_occupied_FALSE_case(self):
+        """
+        Check if an unoccupied square is unoccupied.
+
+        Remember, "False" isn't necessarily a bad thing.
+
+        "Did you murder this man?"
+
+        "False."
+        """
+        chump_game = Game()
+        plane = Plain()
+        plane.initialize(10, 10)
+        chump_game.set_map(plane)
+
+        x_cord = 8
+        y_cord = 8
+
+        self.assertEqual(
+            chump_game.check_if_occupied(x_cord, y_cord),
+            False
+        )
         
+    def test_check_if_occupied_TRUE_case(self):
+        """
+        Check if an occupied square is occupied.
+
+        Note that "True" CAN be a bad thing.
+
+        "Did you set your boss's house on fire?"
+
+        "True."
+        """
+        chump_game = Game()
+        the_void = Plain()
+        the_void.initialize(10, 10)
+        chump_game.set_map(the_void)
+
+        x_cord = 3
+        y_cord = 3
+
+        master_of_the_universe = Plebian()
+        master_of_the_universe.set_position(x_cord, y_cord)
+        chump_game.add_entity_to_map(master_of_the_universe)
+
+        self.assertEqual(
+            chump_game.check_if_occupied(x_cord, y_cord),
+            True
+        )
+
     """
     initialize_map tests.
     """
