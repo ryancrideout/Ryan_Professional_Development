@@ -365,7 +365,6 @@ class TestGame(unittest.TestCase):
         
         with self.assertRaises(ValueError):
             a_game.initialize_map()
-            # Sexy beast
 
     """
     create_character tests.
