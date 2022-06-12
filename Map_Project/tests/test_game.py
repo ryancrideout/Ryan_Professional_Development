@@ -16,6 +16,9 @@ class TestGame(unittest.TestCase):
         # Should test this last as this depends on EVERYTHING else.
         pass
 
+    """
+    set map tests.
+    """
     def test_set_map_success_case(self):
         chump_game = Game()
         # New Game should have no map set yet.
@@ -38,6 +41,9 @@ class TestGame(unittest.TestCase):
 
             self.assertTrue("Unable to attach Map Type obect to Game." in context.exception)
 
+    """
+    add_entity_to_map tests.
+    """
     def test_add_entity_to_map_no_map_case(self):
         '''
         This should fail as we can't add an entity to a map
@@ -158,6 +164,9 @@ class TestGame(unittest.TestCase):
         with self.assertRaises(KeyError):
             chump_game.add_entity_to_map(the_lost_one)
 
+    """
+    remove_entity_from_map tests.
+    """
     def test_remove_entity_from_map_SUCCESS_case(self):
         '''
         Put an entity on a map and then remove it. This should be pretty
@@ -236,6 +245,9 @@ class TestGame(unittest.TestCase):
 
             self.assertTrue("'int' object has no attribute 'x'" in context.exception)
 
+    """
+    check_if_occupied tests.
+    """
     def test_check_if_occupied(self):
         pass
 
