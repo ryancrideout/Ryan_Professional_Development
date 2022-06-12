@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from classes.game import Game
 from classes.plain import Plain
 from classes.plebian import Plebian
@@ -157,8 +158,83 @@ class TestGame(unittest.TestCase):
         with self.assertRaises(KeyError):
             chump_game.add_entity_to_map(the_lost_one)
 
-    def test_remove_entity_to_map(self):
-        pass
+    def test_remove_entity_from_map_SUCCESS_case(self):
+        '''
+        Put an entity on a map and then remove it. This should be pretty
+        straightforward.
+        '''
+        chump_game = Game()
+        some_plain = Plain()
+        some_plain.initialize(10, 10)
+        chump_game.set_map(some_plain)
+
+        x_cord = 2
+        y_cord = 2
+
+        the_victim = Plebian()
+        the_victim.set_position(x_cord, y_cord)
+        chump_game.add_entity_to_map(the_victim)
+
+        # Now we remove the victim. I feel like I'm some mafia member cleaning the scene.
+        chump_game.remove_entity_from_map(the_victim)
+        self.assertEqual(
+            chump_game.map.grid[x_cord][y_cord].occupant,
+            None
+        )
+
+    @patch('builtins.print')
+    def test_remove_entity_from_map_EMPTY_case(self, mock_print):
+        '''
+        Create an entity, but don't add it to the map. We'll try to remove it, but won't
+        be able to as, well, it just doesn't exist.
+        '''
+        chump_game = Game()
+        some_plain = Plain()
+        some_plain.initialize(10, 10)
+        chump_game.set_map(some_plain)
+
+        x_cord = 2
+        y_cord = 2
+
+        mr_waffles = Plebian()
+        mr_waffles.set_position(x_cord, y_cord)
+
+        chump_game.remove_entity_from_map(mr_waffles)
+        mock_print.assert_called_with("{}, {} is already empty!".format(x_cord, y_cord))
+
+    def test_remove_entity_from_map_NO_MAP_case(self):
+        '''
+        This should fail, as how can we remove something from a map if a map doesn't exist?
+
+        At this point though I feel like I'm testing the compiler more than anything else.
+        '''
+        chump_game = Game()
+
+        x_cord = 2
+        y_cord = 2
+
+        some_guy = Plebian()
+        some_guy.set_position(x_cord, y_cord)
+
+        with self.assertRaises(ValueError) as context:
+            chump_game.remove_entity_from_map(some_guy)
+
+            self.assertTrue("There is no map associated with the game!" in context.exception)
+
+    def test_remove_entity_from_map_non_entity_case(self):
+        '''
+        This will obviously error. I can't think of many cases where this should naturally
+        occur though.
+        '''
+        chump_game = Game()
+        some_plain = Plain()
+        some_plain.initialize(10, 10)
+        chump_game.set_map(some_plain)
+
+        with self.assertRaises(AttributeError) as context:
+            chump_game.remove_entity_from_map(666)
+
+            self.assertTrue("'int' object has no attribute 'x'" in context.exception)
 
     def test_check_if_occupied(self):
         pass
