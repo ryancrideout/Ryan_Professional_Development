@@ -248,20 +248,46 @@ class TestGame(unittest.TestCase):
     """
     check_if_occupied tests.
     """
-    def test_check_if_occupied(self):
-        pass
+    def test_check_if_occupied_NO_MAP_case(self):
+        '''
+        Hard to check if a tile on a map is occupied if there's no map.
 
+        I'm sure someone has said this before. Maybe the voices in my head.
+        '''
+        chump_game = Game()
+        x_cord = 2
+        y_cord = 2
+        with self.assertRaises(ValueError) as context:
+            chump_game.check_if_occupied(x_cord, y_cord)
+
+            self.assertTrue("There is no map associated with the game!" in context.exception)
+        
+    """
+    initialize_map tests.
+    """
     def test_initialize_map(self):
         pass
 
+    """
+    create_character tests.
+    """
     def test_create_character(self):
         pass
 
+    """
+    set_character_position tests.
+    """
     def test_set_character_position(self):
         pass
 
+    """
+    move_character tests.
+    """
     def test_move_character(self):
         pass
 
+    """
+    display_game_command tests.
+    """
     def test_display_game_commands(self):
         pass
