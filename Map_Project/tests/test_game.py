@@ -370,6 +370,7 @@ class TestGame(unittest.TestCase):
     create_character tests.
     """
     def test_create_character(self):
+        # Test Two
         pass
 
     """
