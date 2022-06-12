@@ -16,6 +16,9 @@ class TestGame(unittest.TestCase):
         # Should test this last as this depends on EVERYTHING else.
         pass
 
+    """
+    set map tests.
+    """
     def test_set_map_success_case(self):
         chump_game = Game()
         # New Game should have no map set yet.
@@ -38,6 +41,9 @@ class TestGame(unittest.TestCase):
 
             self.assertTrue("Unable to attach Map Type obect to Game." in context.exception)
 
+    """
+    add_entity_to_map tests.
+    """
     def test_add_entity_to_map_no_map_case(self):
         '''
         This should fail as we can't add an entity to a map
@@ -158,6 +164,9 @@ class TestGame(unittest.TestCase):
         with self.assertRaises(KeyError):
             chump_game.add_entity_to_map(the_lost_one)
 
+    """
+    remove_entity_from_map tests.
+    """
     def test_remove_entity_from_map_SUCCESS_case(self):
         '''
         Put an entity on a map and then remove it. This should be pretty
@@ -236,20 +245,114 @@ class TestGame(unittest.TestCase):
 
             self.assertTrue("'int' object has no attribute 'x'" in context.exception)
 
-    def test_check_if_occupied(self):
-        pass
+    """
+    check_if_occupied tests.
+    """
+    def test_check_if_occupied_NO_MAP_case(self):
+        '''
+        Hard to check if a tile on a map is occupied if there's no map.
 
+        I'm sure someone has said this before. Maybe the voices in my head.
+        '''
+        chump_game = Game()
+        x_cord = 2
+        y_cord = 2
+        with self.assertRaises(ValueError) as context:
+            chump_game.check_if_occupied(x_cord, y_cord)
+
+            self.assertTrue("There is no map associated with the game!" in context.exception)
+
+    def test_check_if_occupied_OUT_OF_BOUNDS_case(self):
+        """
+        Exactly what is described by the title. We should get a key error.
+        """
+        the_game = Game()
+        smallest_plain = Plain()
+        smallest_plain.initialize(3, 3)
+        the_game.set_map(smallest_plain)
+
+        x_cord = 40000
+        y_cord = 40000
+
+        with self.assertRaises(KeyError):
+            the_game.check_if_occupied(x_cord, y_cord)
+
+    def test_check_if_occupied_FALSE_case(self):
+        """
+        Check if an unoccupied square is unoccupied.
+
+        Remember, "False" isn't necessarily a bad thing.
+
+        "Did you murder this man?"
+
+        "False."
+        """
+        chump_game = Game()
+        plane = Plain()
+        plane.initialize(10, 10)
+        chump_game.set_map(plane)
+
+        x_cord = 8
+        y_cord = 8
+
+        self.assertEqual(
+            chump_game.check_if_occupied(x_cord, y_cord),
+            False
+        )
+        
+    def test_check_if_occupied_TRUE_case(self):
+        """
+        Check if an occupied square is occupied.
+
+        Note that "True" CAN be a bad thing.
+
+        "Did you set your boss's house on fire?"
+
+        "True."
+        """
+        chump_game = Game()
+        the_void = Plain()
+        the_void.initialize(10, 10)
+        chump_game.set_map(the_void)
+
+        x_cord = 3
+        y_cord = 3
+
+        master_of_the_universe = Plebian()
+        master_of_the_universe.set_position(x_cord, y_cord)
+        chump_game.add_entity_to_map(master_of_the_universe)
+
+        self.assertEqual(
+            chump_game.check_if_occupied(x_cord, y_cord),
+            True
+        )
+
+    """
+    initialize_map tests.
+    """
     def test_initialize_map(self):
         pass
 
+    """
+    create_character tests.
+    """
     def test_create_character(self):
         pass
 
+    """
+    set_character_position tests.
+    """
     def test_set_character_position(self):
         pass
 
+    """
+    move_character tests.
+    """
     def test_move_character(self):
         pass
 
+    """
+    display_game_command tests.
+    """
     def test_display_game_commands(self):
         pass

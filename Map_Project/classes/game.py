@@ -77,7 +77,7 @@ class Game():
         """
         if self.map == None:
             raise ValueError("There is no map associated with the game!")
-            
+
         x_cord = entity.x
         y_cord = entity.y
 
@@ -89,6 +89,9 @@ class Game():
             print("{}, {} is already empty!".format(x_cord, y_cord))
 
     def check_if_occupied(self, x_cord: int, y_cord: int) -> bool:
+        if self.map == None:
+            raise ValueError("There is no map associated with the game!")
+            
         if self.map.grid[x_cord][y_cord].occupant:
             return True
         else:
