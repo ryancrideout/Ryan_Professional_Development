@@ -330,13 +330,41 @@ class TestGame(unittest.TestCase):
     """
     initialize_map tests.
     """
-    def test_initialize_map_SUCCESS_case(self):
+    @patch('classes.game.input', create=True)
+    def test_initialize_map_SUCCESS_case(self, mocked_input):
         """
         Simple case of initializing a map and assigning it to the game.
 
-        Note we're going to have to 
+        Note we're going to have to supply user inputs for this.
+
+        Furthermore, this is just to make sure the map gets attached to the game,
+        we can be more rigorous with the "initialize" method on the Maps.
         """
-        pass
+        x_cord = 10
+        y_cord = 8
+        mocked_input.side_effect = [x_cord, y_cord]
+        a_game = Game()
+        a_game.initialize_map()
+
+        self.assertTrue(isinstance(a_game.map, Plain))
+        self.assertEqual(a_game.map.width, x_cord)
+        self.assertEqual(a_game.map.height, y_cord)
+
+    @patch('classes.game.input', create=True)
+    def test_initialize_map_FAILURE_case(self, mocked_input):
+        """
+        Going to crash this method by giving it some string inputs.
+
+        This raises the question of maybe we should allow the user to try
+        again if they input something "dumb", but that might be a later task.
+        """
+        x_cord = "ten"
+        y_cord = "eight"
+        mocked_input.side_effect = [x_cord, y_cord]
+        a_game = Game()
+        
+        with self.assertRaises(ValueError):
+            a_game.initialize_map()
 
     """
     create_character tests.
