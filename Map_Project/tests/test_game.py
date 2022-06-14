@@ -3,6 +3,7 @@ from unittest.mock import patch
 from classes.game import Game
 from classes.plain import Plain
 from classes.plebian import Plebian
+from classes.jester import Jester
 
 class TestGame(unittest.TestCase):
     '''
@@ -369,8 +370,51 @@ class TestGame(unittest.TestCase):
     """
     create_character tests.
     """
-    def test_create_character(self):
-        pass
+    @patch('classes.game.input', create=True)
+    def test_create_character_plebian_case(self, mocked_input):
+        """
+        Create ourselves a plebian. We'll be sure to give them a great name.
+        """
+        best_game = Game()
+        character_type = "plebian"
+        name = "The Fresh Kid"
+        mocked_input.side_effect = [character_type, name]
+        
+        # Create our character and assert that the class and name is right.
+        fresh_meat = best_game.create_character()
+        self.assertTrue(isinstance(fresh_meat, Plebian))
+        self.assertEqual(fresh_meat.name, name)
+
+    @patch('classes.game.input', create=True)
+    def test_create_character_jester_case(self, mocked_input):
+        """
+        Almost identical to the first test, though in this case we're making a jester.
+        """
+        best_game = Game()
+        character_type = "JeStEr"
+        name = "King Snuffles"
+        mocked_input.side_effect = [character_type, name]
+        
+        # Create our character and assert that the class and name is right.
+        not_plebian = best_game.create_character()
+        self.assertTrue(isinstance(not_plebian, Jester))
+        self.assertEqual(not_plebian.name, name)
+
+    @patch('classes.game.input', create=True)
+    def test_create_character_unspecified_case(self, mocked_input):
+        """
+        The case where we give a character type that's undefined or not known.
+        This will give us back a Plebian.
+        """
+        best_game = Game()
+        character_type = "Epic Tier 3 Engineer"
+        name = "Isaac Clarke"
+        mocked_input.side_effect = [character_type, name]
+        
+        # Create our character and assert that the class and name is right.
+        engineer = best_game.create_character()
+        self.assertTrue(isinstance(engineer, Plebian))
+        self.assertEqual(engineer.name, name)
 
     """
     set_character_position tests.
