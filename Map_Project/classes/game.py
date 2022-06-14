@@ -134,6 +134,7 @@ class Game():
             character = Jester()
         else:
             print("Unidentified character type. You get a Plebian.")
+            character = Plebian()
 
         name = input("Please give the character a name. - ")
         character.set_name(name)
