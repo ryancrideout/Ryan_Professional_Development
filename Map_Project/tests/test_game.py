@@ -419,8 +419,58 @@ class TestGame(unittest.TestCase):
     """
     set_character_position tests.
     """
-    def test_set_character_position(self):
-        pass
+    @patch('classes.game.input', create=True)
+    def test_set_character_position_success_case(self, mocked_input):
+        """
+        Have a character, and set it's position. Pretty straightforward. I hope.
+
+        Note that the inputs get cast to int, hence the string and int input. 
+
+        Also note that setting the character position is independent of the map so
+        trying to set a character's position to be outside of map bounds is futile.
+        """
+        power_game = Game()
+        the_coach = Plebian()
+        x_cord = "2"
+        y_cord = 2
+        mocked_input.side_effect = [x_cord, y_cord]
+
+        # Nothing should be set yet.
+        self.assertEqual(the_coach.position, None)
+        self.assertEqual(the_coach.x, None)
+        self.assertEqual(the_coach.y, None)
+        
+        power_game.set_character_position(the_coach)
+
+        self.assertEqual(the_coach.position, (int(x_cord), y_cord))
+        self.assertEqual(the_coach.x, int(x_cord))
+        self.assertEqual(the_coach.y, y_cord)
+
+    def test_set_character_position_NON_CHARACTER_case(self):
+        """
+        Case where we try to set the character position of a non character.
+
+        This should end in heartbreak and failure.
+        """
+        power_game = Game()
+        with self.assertRaises(TypeError) as context:
+            power_game.set_character_position("Big Chungus lives on as the dominant meme")
+
+            self.assertTrue("Cannot set position of non-character object!" in context.exception)
+
+    @patch('classes.game.input', create=True)
+    def test_set_character_position_dumb_input_case(self, mocked_input):
+        """
+        Case where we try some outrageously stupid inputs for the method. Ideally, things should break.
+        """
+        power_game = Game()
+        harvey_dent = Jester()
+        x_cord = "War. War never changes."
+        y_cord = Game()
+        mocked_input.side_effect = [x_cord, y_cord]
+
+        with self.assertRaises(ValueError):
+            power_game.set_character_position(harvey_dent)
 
     """
     move_character tests.

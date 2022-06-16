@@ -143,7 +143,10 @@ class Game():
         return character
 
     def set_character_position(self, character):
-        # TODO - I need to include error checking.
+        # Note that we check for character type, but we might need to expand this later
+        # to include more classes. Not 100% sure where I stand on this yet.
+        if not isinstance(character, Character):
+            raise TypeError("Cannot set position of non-character object!")
         print("Alrigt we need an x and y coordinate to place this character.")
         x_cord = input("X COORDINATE. NOW. - ")
         y_cord = input("NOW A Y COORDINATE - ")
