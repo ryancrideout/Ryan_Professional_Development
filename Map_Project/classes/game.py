@@ -155,6 +155,8 @@ class Game():
     def move_character(self):
         # TODO - Need to add error checking.
         character_name = input("Please give the name of the character you'd like to move - ")
+        if character_name not in self.characters:
+            raise ValueError("{} is not a character that exists on the map!".format(character_name))
         character = self.characters[character_name]
         direction = input("What direction would you like to move {}? - ".format(character.name))
 
