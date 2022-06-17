@@ -729,4 +729,8 @@ class TestGame(unittest.TestCase):
     display_game_command tests.
     """
     def test_display_game_commands(self):
+        """
+        This command is literally just a bunch of print statements, so I'm not quite
+        sure how to test this, so I'll just leave it alone for now.
+        """
         pass
