@@ -3,6 +3,7 @@ import unittest
 from classes.plain import Plain
 from classes.maptile import MapTile
 
+
 class TestPlain(unittest.TestCase):
     '''
     Tests for our plain class. I'm really not sure how I'll end up

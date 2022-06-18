@@ -14,12 +14,18 @@ class MapTile():
         self.occupant = None
 
     def set_coordinates(self, x: int, y: int):
-        self.x = x
-        self.y = y
-        self.coordinates = (x, y)
+        # We're casting to integer here so that we can catch bad inputs
+        # should they happen.
+        self.x = int(x)
+        self.y = int(y)
+        self.coordinates = (int(x), int(y))
 
     def set_occupant(self, occupant: Character):
-        # TODO - somehow force the "occupant" to be displayable.
-        # I.E., occupant MUST have a ".icon".
-        # Maybe do this later?
-        self.occupant = occupant
+        # RE: Type Checking - while I enforce the occupant to be a character,
+        #     I could foresee other "entity" types occupying a map space.
+        if occupant == None:
+            self.occupant = occupant
+        elif not isinstance(occupant, Character):
+            raise TypeError("Cannot make a non-character a map occupant!")
+        else:
+            self.occupant = occupant
