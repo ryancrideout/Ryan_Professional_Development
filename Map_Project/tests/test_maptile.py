@@ -3,6 +3,7 @@ import unittest
 from classes.maptile import MapTile
 from classes.plebian import Plebian
 
+
 class TestMapTile(unittest.TestCase):
     """
     set_coordinates tests

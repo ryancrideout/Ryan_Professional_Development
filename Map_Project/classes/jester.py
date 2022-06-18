@@ -9,12 +9,12 @@ class Jester(Character):
         self.name = None
 
     def set_position(self, x: int, y: int):
-        self.position = (x, y)
-        self.x = x
-        self.y = y
+        self.x = int(x)
+        self.y = int(y)
+        self.position = (int(x), int(y))
 
     def set_name(self, name: str):
-        self.name = name
+        self.name = str(name)
 
     def movement_action(self, direction: str):
         """
@@ -34,3 +34,5 @@ class Jester(Character):
             return ((self.x - tiles), self.y)
         elif direction.lower() in self.RIGHT:
             return ((self.x + tiles), self.y)
+        else:
+            print("Error! Direction not recognized. Not moving {}.".format(self.name))
