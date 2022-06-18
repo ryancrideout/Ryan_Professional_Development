@@ -9,18 +9,21 @@ class Plebian(Character):
         self.name = None
 
     def set_position(self, x: int, y: int):
-        self.position = (x, y)
-        self.x = x
-        self.y = y
+        self.x = int(x)
+        self.y = int(y)
+        self.position = (int(x), int(y))
 
     def set_name(self, name: str):
-        self.name = name
+        self.name = str(name)
 
     def movement_action(self, direction: str):
         """
         Set of instructions on how Plebians move. Plebians
         don't have sophisticated movement, as demonstrated.
         """
+        if (self.x == None) or (self.y == None):
+            raise ValueError("Missing an X or Y (or both, heh) value!")
+
         if direction.lower() in self.UP:
             return (self.x, (self.y + 1))
         elif direction.lower() in self.DOWN:
@@ -29,3 +32,6 @@ class Plebian(Character):
             return ((self.x - 1), self.y)
         elif direction.lower() in self.RIGHT:
             return ((self.x + 1), self.y)
+        else:
+            print("Error! Direction not recognized. Not moving {}.".format(self.name))
+            return (self.x, self.y)
