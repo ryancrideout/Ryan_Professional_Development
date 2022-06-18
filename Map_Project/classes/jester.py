@@ -25,6 +25,9 @@ class Jester(Character):
         Most programmers will think Jesters are identical
         to Plebians, haha.
         """
+        if (self.x == None) or (self.y == None):
+            raise ValueError("Missing an X or Y (or both, heh) value!")
+
         tiles = len(direction)
         if direction.lower() in self.UP:
             return (self.x, (self.y + tiles))
@@ -36,3 +39,4 @@ class Jester(Character):
             return ((self.x + tiles), self.y)
         else:
             print("Error! Direction not recognized. Not moving {}.".format(self.name))
+            return (self.x, self.y)
