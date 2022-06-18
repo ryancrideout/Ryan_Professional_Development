@@ -1,9 +1,11 @@
 import unittest
 from unittest.mock import patch
+
 from classes.game import Game
 from classes.plain import Plain
 from classes.plebian import Plebian
 from classes.jester import Jester
+
 
 class TestGame(unittest.TestCase):
     '''
