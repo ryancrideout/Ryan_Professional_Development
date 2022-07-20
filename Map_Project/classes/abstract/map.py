@@ -10,7 +10,3 @@ class Map(ABC):
     @abstractmethod
     def initialize(self, width, height):
         print("MAKE A MAP YOU FOOL")
-
-    @abstractmethod
-    def render(self):
-        print("We're going to have to print out the map here.")
