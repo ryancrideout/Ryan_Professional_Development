@@ -6,7 +6,7 @@ from classes.abstract.character import Character
 
 
 class Game():
-    TERMINATE = ["stop", "s", "exit", "terminate", "t"]
+    TERMINATE = ["stop", "s", "exit", "terminate", "t", "quit", "q"]
     RENDER = ["r", "render", "p", "print"]
     HELP = ["h", "help"]
     CREATE = ["create", "c", "character"]
@@ -32,7 +32,7 @@ class Game():
         while user_input.lower() not in self.TERMINATE:
 
             if user_input.lower() in self.RENDER:
-                self.map.render()
+                self.render()
 
             if user_input.lower() in self.HELP:
                 self.display_game_commands()
@@ -187,6 +187,35 @@ class Game():
             character.set_position(new_x_cord, new_y_cord)
             # Add the character back to the map.
             self.add_entity_to_map(character)
+
+    def render(self):
+        """
+        Coordinate numbers would be real nice to have, but that
+        can be a strech goal and or come later.
+
+        NOTE: Python prints to console from left to right, and from
+              top to bottom. Traditional maps though, read left to
+              right, bottom to top. As such, I've had to do with
+              some monkeying around with the coordinates to make
+              sure everything displays in an intuitive sense.
+        """
+        if not self.map:
+            print("There is no map you display! AUGH!")
+        elif not self.map.grid:
+            print("Map has no grid attached to it!")
+        else:
+            # TODO: Verify I got the width and height correct.
+            #       I have my doubts.
+            for i in range(self.map.height):
+                y_index = self.map.height - 1 - i
+                print(f"\n", end="")
+                for x_index in range(self.map.width):
+                    if self.map.grid[x_index][y_index].occupant:
+                        print("|{}".format(self.map.grid[x_index][y_index].occupant.icon), end="")
+                    else:
+                        print("| ", end="")
+                print("|", end="")
+        print()
 
     def display_game_commands(self):
         print("These are the available commands:")
