@@ -803,7 +803,6 @@ class TestGame(unittest.TestCase):
     """
     set_occupant tests
     """
-    # @patch('classes.game.input', create=True)
     def test_set_occupant_success_case(self):
         """
         Basic success case. If this fails we're in a heap of trouble.
@@ -815,15 +814,6 @@ class TestGame(unittest.TestCase):
         # No occupant... YET
         self.assertEqual(heroic_maptile.occupant, None)
 
-        # map_width = "10"
-        # map_height = "10"
-        # mocked_input.side_effect = [
-        #     map_width,
-        #     map_height,
-        # ]
-        # chump_game.initialize_map()
-
-        # heroic_maptile.set_occupant(simply_dan)
         chump_game.set_occupant(simply_dan, heroic_maptile)
 
         # Now Dan is an occupant.
@@ -842,14 +832,12 @@ class TestGame(unittest.TestCase):
         # No occupant... YET
         self.assertEqual(heroic_maptile.occupant, None)
 
-        # heroic_maptile.set_occupant(simply_dan)
         chump_game.set_occupant(simply_dan, heroic_maptile)
 
         # Dan is an occupant. All is good.
         self.assertEqual(heroic_maptile.occupant, simply_dan)
 
         # Now we don't want the occupant to be anything.
-        # heroic_maptile.set_occupant(None)
         chump_game.set_occupant(None, heroic_maptile)
 
         # There's nothing here now!
@@ -865,11 +853,9 @@ class TestGame(unittest.TestCase):
         chump_game = Game()
 
         with self.assertRaises(TypeError) as context:
-            # heroic_maptile.set_occupant(epic_string)
             chump_game.set_occupant(epic_string, heroic_maptile)
 
             self.assertTrue("Cannot make a non-character a map occupant!" in context.exception)
-
 
     """
     display_game_command tests.

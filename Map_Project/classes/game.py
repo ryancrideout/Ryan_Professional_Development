@@ -17,21 +17,6 @@ class Game():
         self.map = None
         self.characters = {}
 
-    def set_map(self, map: Map):
-        if not isinstance(map, Map):
-            raise TypeError("Unable to attach Map Type obect to Game.")
-        self.map = map
-
-    def set_occupant(self, occupant: Character, map_tile: MapTile):
-        # RE: Type Checking - while I enforce the occupant to be a character,
-        #     I could foresee other "entity" types occupying a map space.
-        if occupant == None:
-            map_tile.occupant = occupant
-        elif not isinstance(occupant, Character):
-            raise TypeError("Cannot make a non-character a map occupant!")
-        else:
-            map_tile.occupant = occupant
-
     def run(self):
         """
         This runs the game as a whole. There might be an more appropriate place
@@ -59,6 +44,21 @@ class Game():
             user_input = input("Now give me another command - type 'help' for help - ")
 
         print("Goodbye, human.")
+
+    def set_map(self, map: Map):
+        if not isinstance(map, Map):
+            raise TypeError("Unable to attach Map Type obect to Game.")
+        self.map = map
+
+    def set_occupant(self, occupant: Character, map_tile: MapTile):
+        # RE: Type Checking - while I enforce the occupant to be a character,
+        #     I could foresee other "entity" types occupying a map space.
+        if occupant == None:
+            map_tile.occupant = occupant
+        elif not isinstance(occupant, Character):
+            raise TypeError("Cannot make a non-character a map occupant!")
+        else:
+            map_tile.occupant = occupant
 
     def add_entity_to_map(self, entity):
         """
