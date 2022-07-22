@@ -1,5 +1,3 @@
-# from classes.abstract.character import Character
-
 class MapTile():
     """
     Future considerations for MapTiles:

@@ -77,7 +77,6 @@ class Game():
         # Need to do - add error checking.
         if not self.map.grid[x_cord][y_cord].occupant:
             self.set_occupant(entity, self.map.grid[x_cord][y_cord])
-            # self.map.grid[x_cord][y_cord].set_occupant(entity)
         else:
             # AttributeError might not be the appropriate error to raise here?
             raise AttributeError("Map space is already occupied!")
@@ -96,7 +95,6 @@ class Game():
         # Again, need to add some error checking or something.
         if self.map.grid[x_cord][y_cord].occupant:
             self.set_occupant(None, self.map.grid[x_cord][y_cord])
-            # self.map.grid[x_cord][y_cord].set_occupant(None)
         else:
             # We might need a better error message here.
             print("{}, {} is already empty!".format(x_cord, y_cord))
