@@ -1,5 +1,3 @@
-from classes.abstract.character import Character
-
 class MapTile():
     """
     Future considerations for MapTiles:
@@ -19,13 +17,3 @@ class MapTile():
         self.x = int(x)
         self.y = int(y)
         self.coordinates = (int(x), int(y))
-
-    def set_occupant(self, occupant: Character):
-        # RE: Type Checking - while I enforce the occupant to be a character,
-        #     I could foresee other "entity" types occupying a map space.
-        if occupant == None:
-            self.occupant = occupant
-        elif not isinstance(occupant, Character):
-            raise TypeError("Cannot make a non-character a map occupant!")
-        else:
-            self.occupant = occupant

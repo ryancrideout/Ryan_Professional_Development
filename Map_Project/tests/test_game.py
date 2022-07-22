@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 from classes.game import Game
 from classes.plain import Plain
+from classes.maptile import MapTile
 from classes.plebian import Plebian
 from classes.jester import Jester
 
@@ -798,6 +799,63 @@ class TestGame(unittest.TestCase):
             chump_game.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
             plebian_isaac
         )
+
+    """
+    set_occupant tests
+    """
+    def test_set_occupant_success_case(self):
+        """
+        Basic success case. If this fails we're in a heap of trouble.
+        """
+        heroic_maptile = MapTile()
+        simply_dan = Plebian()
+        chump_game = Game()
+
+        # No occupant... YET
+        self.assertEqual(heroic_maptile.occupant, None)
+
+        chump_game.set_occupant(simply_dan, heroic_maptile)
+
+        # Now Dan is an occupant.
+        self.assertEqual(heroic_maptile.occupant, simply_dan)
+
+    def test_set_occupant_n0ne_case(self):
+        """
+        In my infinite wisdom I forgot that we want to be able to set
+        the map_occupant to be "None" - a relevant case for when we
+        remove enities from map.
+        """
+        heroic_maptile = MapTile()
+        simply_dan = Plebian()
+        chump_game = Game()
+
+        # No occupant... YET
+        self.assertEqual(heroic_maptile.occupant, None)
+
+        chump_game.set_occupant(simply_dan, heroic_maptile)
+
+        # Dan is an occupant. All is good.
+        self.assertEqual(heroic_maptile.occupant, simply_dan)
+
+        # Now we don't want the occupant to be anything.
+        chump_game.set_occupant(None, heroic_maptile)
+
+        # There's nothing here now!
+        self.assertEqual(heroic_maptile.occupant, None)
+
+    def test_set_occupant_FAILURE_case(self):
+        """
+        We're going to try setting an occupant that isn't a character or is "None".
+        This shouldn't fly, though we may have to make adjustments later.
+        """
+        heroic_maptile = MapTile()
+        epic_string = "I am the ember of eternity!"
+        chump_game = Game()
+
+        with self.assertRaises(TypeError) as context:
+            chump_game.set_occupant(epic_string, heroic_maptile)
+
+            self.assertTrue("Cannot make a non-character a map occupant!" in context.exception)
 
     """
     display_game_command tests.

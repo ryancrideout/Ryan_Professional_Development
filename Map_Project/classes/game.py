@@ -1,6 +1,7 @@
 from classes.plain import Plain
 from classes.jester import Jester
 from classes.plebian import Plebian
+from classes.maptile import MapTile
 from classes.abstract.map import Map
 from classes.abstract.character import Character
 
@@ -15,11 +16,6 @@ class Game():
     def __init__(self):
         self.map = None
         self.characters = {}
-
-    def set_map(self, map: Map):
-        if not isinstance(map, Map):
-            raise TypeError("Unable to attach Map Type obect to Game.")
-        self.map = map
 
     def run(self):
         """
@@ -49,6 +45,21 @@ class Game():
 
         print("Goodbye, human.")
 
+    def set_map(self, map: Map):
+        if not isinstance(map, Map):
+            raise TypeError("Unable to attach Map Type obect to Game.")
+        self.map = map
+
+    def set_occupant(self, occupant: Character, map_tile: MapTile):
+        # RE: Type Checking - while I enforce the occupant to be a character,
+        #     I could foresee other "entity" types occupying a map space.
+        if occupant == None:
+            map_tile.occupant = occupant
+        elif not isinstance(occupant, Character):
+            raise TypeError("Cannot make a non-character a map occupant!")
+        else:
+            map_tile.occupant = occupant
+
     def add_entity_to_map(self, entity):
         """
         This takes an entity (E.G., Character) and adds it to the map.
@@ -65,7 +76,7 @@ class Game():
 
         # Need to do - add error checking.
         if not self.map.grid[x_cord][y_cord].occupant:
-            self.map.grid[x_cord][y_cord].set_occupant(entity)
+            self.set_occupant(entity, self.map.grid[x_cord][y_cord])
         else:
             # AttributeError might not be the appropriate error to raise here?
             raise AttributeError("Map space is already occupied!")
@@ -83,7 +94,7 @@ class Game():
 
         # Again, need to add some error checking or something.
         if self.map.grid[x_cord][y_cord].occupant:
-            self.map.grid[x_cord][y_cord].set_occupant(None)
+            self.set_occupant(None, self.map.grid[x_cord][y_cord])
         else:
             # We might need a better error message here.
             print("{}, {} is already empty!".format(x_cord, y_cord))
