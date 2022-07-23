@@ -162,7 +162,7 @@ class TestGame(unittest.TestCase):
         y_cord = 2
 
         the_victim = Plebian()
-        the_victim.set_position(x_cord, y_cord)
+        chump_game.set_entity_position(the_victim, x_cord, y_cord)
         chump_game.add_entity_to_map(the_victim)
 
         self.assertEqual(
@@ -191,7 +191,7 @@ class TestGame(unittest.TestCase):
         y_cord = 2
 
         the_victim = Plebian()
-        the_victim.set_position(x_cord, y_cord)
+        chump_game.set_entity_position(the_victim, x_cord, y_cord)
         chump_game.add_entity_to_map(the_victim)
 
         self.assertEqual(
@@ -205,7 +205,7 @@ class TestGame(unittest.TestCase):
             self.assertTrue("Map space is already occupied!" in context.exception)
 
         # Update the position so we can re-add "the victim" to the map.
-        the_victim.set_position(x_cord + 1, y_cord + 1)
+        chump_game.set_entity_position(the_victim, x_cord + 1, y_cord + 1)
         chump_game.add_entity_to_map(the_victim)
 
         self.assertEqual(
@@ -236,7 +236,7 @@ class TestGame(unittest.TestCase):
         y_cord = 12
 
         the_lost_one = Plebian()
-        the_lost_one.set_position(x_cord, y_cord)
+        chump_game.set_entity_position(the_lost_one, x_cord, y_cord)
         with self.assertRaises(KeyError):
             chump_game.add_entity_to_map(the_lost_one)
 
@@ -257,7 +257,7 @@ class TestGame(unittest.TestCase):
         y_cord = 2
 
         the_victim = Plebian()
-        the_victim.set_position(x_cord, y_cord)
+        chump_game.set_entity_position(the_victim, x_cord, y_cord)
         chump_game.add_entity_to_map(the_victim)
 
         # Now we remove the victim. I feel like I'm some mafia member cleaning the scene.
@@ -282,7 +282,7 @@ class TestGame(unittest.TestCase):
         y_cord = 2
 
         mr_waffles = Plebian()
-        mr_waffles.set_position(x_cord, y_cord)
+        chump_game.set_entity_position(mr_waffles, x_cord, y_cord)
 
         chump_game.remove_entity_from_map(mr_waffles)
         mock_print.assert_called_with("{}, {} is already empty!".format(x_cord, y_cord))
@@ -299,7 +299,7 @@ class TestGame(unittest.TestCase):
         y_cord = 2
 
         some_guy = Plebian()
-        some_guy.set_position(x_cord, y_cord)
+        chump_game.set_entity_position(some_guy, x_cord, y_cord)
 
         with self.assertRaises(ValueError) as context:
             chump_game.remove_entity_from_map(some_guy)
@@ -395,7 +395,7 @@ class TestGame(unittest.TestCase):
         y_cord = 3
 
         master_of_the_universe = Plebian()
-        master_of_the_universe.set_position(x_cord, y_cord)
+        chump_game.set_entity_position(master_of_the_universe, x_cord, y_cord)
         chump_game.add_entity_to_map(master_of_the_universe)
 
         self.assertEqual(
@@ -801,9 +801,9 @@ class TestGame(unittest.TestCase):
         )
 
     """
-    set_occupant tests
+    set_maptile_occupant tests
     """
-    def test_set_occupant_success_case(self):
+    def test_set_maptile_occupant_success_case(self):
         """
         Basic success case. If this fails we're in a heap of trouble.
         """
@@ -814,12 +814,12 @@ class TestGame(unittest.TestCase):
         # No occupant... YET
         self.assertEqual(heroic_maptile.occupant, None)
 
-        chump_game.set_occupant(simply_dan, heroic_maptile)
+        chump_game.set_maptile_occupant(simply_dan, heroic_maptile)
 
         # Now Dan is an occupant.
         self.assertEqual(heroic_maptile.occupant, simply_dan)
 
-    def test_set_occupant_n0ne_case(self):
+    def test_set_maptile_occupant_n0ne_case(self):
         """
         In my infinite wisdom I forgot that we want to be able to set
         the map_occupant to be "None" - a relevant case for when we
@@ -832,18 +832,18 @@ class TestGame(unittest.TestCase):
         # No occupant... YET
         self.assertEqual(heroic_maptile.occupant, None)
 
-        chump_game.set_occupant(simply_dan, heroic_maptile)
+        chump_game.set_maptile_occupant(simply_dan, heroic_maptile)
 
         # Dan is an occupant. All is good.
         self.assertEqual(heroic_maptile.occupant, simply_dan)
 
         # Now we don't want the occupant to be anything.
-        chump_game.set_occupant(None, heroic_maptile)
+        chump_game.set_maptile_occupant(None, heroic_maptile)
 
         # There's nothing here now!
         self.assertEqual(heroic_maptile.occupant, None)
 
-    def test_set_occupant_FAILURE_case(self):
+    def test_set_maptile_occupant_FAILURE_case(self):
         """
         We're going to try setting an occupant that isn't a character or is "None".
         This shouldn't fly, though we may have to make adjustments later.
@@ -853,9 +853,112 @@ class TestGame(unittest.TestCase):
         chump_game = Game()
 
         with self.assertRaises(TypeError) as context:
-            chump_game.set_occupant(epic_string, heroic_maptile)
+            chump_game.set_maptile_occupant(epic_string, heroic_maptile)
 
             self.assertTrue("Cannot make a non-character a map occupant!" in context.exception)
+
+    """
+    set_entity_position tests
+    """
+    def test_set_entity_position_success_case(self):
+        """
+        Set the position for both the Jester and Plebian. Functionality
+        will be the same for both classes.
+        """
+        hugh_jackman = Plebian()
+        jugh_hackman = Jester()
+        chump_game = Game()
+
+        x_cord = 14
+        y_cord = 16
+
+        # No position should be set yet for either character.
+        self.assertEqual(hugh_jackman.x, None)
+        self.assertEqual(hugh_jackman.y, None)
+        self.assertEqual(hugh_jackman.position, None)
+        # This is "Jugh", not "Hugh".
+        # Note I deliberately swapped the X and Y coordinates.
+        self.assertEqual(jugh_hackman.x, None)
+        self.assertEqual(jugh_hackman.y, None)
+        self.assertEqual(jugh_hackman.position, None)
+
+        # SET SOME POSITIONS
+        chump_game.set_entity_position(hugh_jackman, x_cord, y_cord)
+        chump_game.set_entity_position(jugh_hackman, y_cord, x_cord)
+
+        self.assertEqual(hugh_jackman.x, x_cord)
+        self.assertEqual(hugh_jackman.y, y_cord)
+        self.assertEqual(hugh_jackman.position, (x_cord, y_cord))
+        # Remember, this is "Jugh" time. 
+        self.assertEqual(jugh_hackman.x, y_cord)
+        self.assertEqual(jugh_hackman.y, x_cord)
+        self.assertEqual(jugh_hackman.position, (y_cord, x_cord))
+
+    def test_set_entity_position_CAST_TO_INT_case(self):
+        """
+        Set the position for both the Jester and Plebian. Functionality
+        will be the same for both classes.
+        """
+        captain_commando = Plebian()
+        jin = Jester()
+        chump_game = Game()
+
+        x_cord = "21"
+        y_cord = "18"
+
+        # SET SOME POSITIONS
+        chump_game.set_entity_position(captain_commando, x_cord, y_cord)
+        chump_game.set_entity_position(jin, y_cord, x_cord)
+
+        self.assertEqual(captain_commando.x, int(x_cord))
+        self.assertEqual(captain_commando.y, int(y_cord))
+        self.assertEqual(captain_commando.position, (int(x_cord), int(y_cord)))
+        # BLOODIA!
+        self.assertEqual(jin.x, int(y_cord))
+        self.assertEqual(jin.y, int(x_cord))
+        self.assertEqual(jin.position, (int(y_cord), int(x_cord)))
+
+    def test_set_entity_position_FAILURE_case(self):
+        """
+        Testing the set_entity_position command with inputs that should cause it to EXPLODE.
+        This is just to ensure that the type checking remains intact.
+        """
+        hogwash = Plebian()
+        bustah_wolf = Jester()
+        chump_game = Game()
+
+        x_cord = "Do dogs like to backflip?"
+        y_cord = bustah_wolf
+
+        with self.assertRaises(ValueError) as context:
+            chump_game.set_entity_position(hogwash, x_cord, y_cord)
+
+        with self.assertRaises(TypeError) as context:
+            chump_game.set_entity_position(hogwash, y_cord, x_cord)
+
+    """
+    set_entity_name tests
+    """
+    def test_set_entity_name_success_case(self):
+        """
+        Default set name case. Due to type checking, "ints" are acceptable inputs.
+        """
+        some_guy = Plebian()
+        some_gal = Jester()
+        chump_game = Game()
+
+        name_one = "Bruce, the Strongest One"
+        name_two = 12003100
+
+        # No names should be set yet.
+        self.assertEqual(some_guy.name, None)
+        self.assertEqual(some_gal.name, None)
+
+        chump_game.set_entity_name(some_guy, name_one)
+        chump_game.set_entity_name(some_gal, name_two)
+
+        self.assertEqual(some_guy.name, name_one)
+        self.assertEqual(some_gal.name, str(name_two))
 
     """
     display_game_command tests.

@@ -8,14 +8,6 @@ class Plebian(Character):
         self.icon = "P"
         self.name = None
 
-    def set_position(self, x: int, y: int):
-        self.x = int(x)
-        self.y = int(y)
-        self.position = (int(x), int(y))
-
-    def set_name(self, name: str):
-        self.name = str(name)
-
     def movement_action(self, direction: str):
         """
         Set of instructions on how Plebians move. Plebians
