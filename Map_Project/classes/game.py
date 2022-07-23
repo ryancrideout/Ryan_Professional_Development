@@ -50,7 +50,7 @@ class Game():
             raise TypeError("Unable to attach Map Type obect to Game.")
         self.map = map
 
-    def set_occupant(self, occupant: Character, map_tile: MapTile):
+    def set_maptile_occupant(self, occupant: Character, map_tile: MapTile):
         # RE: Type Checking - while I enforce the occupant to be a character,
         #     I could foresee other "entity" types occupying a map space.
         if occupant == None:
@@ -76,7 +76,7 @@ class Game():
 
         # Need to do - add error checking.
         if not self.map.grid[x_cord][y_cord].occupant:
-            self.set_occupant(entity, self.map.grid[x_cord][y_cord])
+            self.set_maptile_occupant(entity, self.map.grid[x_cord][y_cord])
         else:
             # AttributeError might not be the appropriate error to raise here?
             raise AttributeError("Map space is already occupied!")
@@ -94,7 +94,7 @@ class Game():
 
         # Again, need to add some error checking or something.
         if self.map.grid[x_cord][y_cord].occupant:
-            self.set_occupant(None, self.map.grid[x_cord][y_cord])
+            self.set_maptile_occupant(None, self.map.grid[x_cord][y_cord])
         else:
             # We might need a better error message here.
             print("{}, {} is already empty!".format(x_cord, y_cord))
