@@ -148,7 +148,7 @@ class Game():
             character = Plebian()
 
         name = input("Please give the character a name. - ")
-        character.set_name(name)
+        self.set_entity_name(character, name)
         self.characters[character.name] = character
 
         return character
@@ -161,7 +161,21 @@ class Game():
         print("Alrigt we need an x and y coordinate to place this character.")
         x_cord = input("X COORDINATE. NOW. - ")
         y_cord = input("NOW A Y COORDINATE - ")
-        character.set_position(int(x_cord), int(y_cord))
+        self.set_entity_position(character, int(x_cord), int(y_cord))
+
+    def set_entity_position(self, entity, x: int, y: int):
+        """
+        Not sure how I feel about this particular function because I feel like
+        it's very close to doing what "set_character_position" is doing, but
+        is actually setting the position. I guess this is a helper function
+        more than anything.
+        """
+        entity.x = int(x)
+        entity.y = int(y)
+        entity.position = (int(x), int(y))
+
+    def set_entity_name(self, entity, name):
+        entity.name = str(name)
 
     def move_character(self):
         # We shouldn't need to do this check, but we have it just in case.
@@ -195,7 +209,7 @@ class Game():
             # Move the character. First, remove character from map.
             self.remove_entity_from_map(character)
             # Set the character's new position
-            character.set_position(new_x_cord, new_y_cord)
+            self.set_entity_position(character, new_x_cord, new_y_cord)
             # Add the character back to the map.
             self.add_entity_to_map(character)
 
