@@ -17,16 +17,6 @@ class Character(ABC):
         self.icon = "?"
         self.name = None
 
-    # @abstractmethod
-    # def set_position(self, x: int, y: int):
-    #     self.position = (x, y)
-    #     self.x = x
-    #     self.y = y
-
-    # @abstractmethod
-    # def set_name(self, name: str):
-    #     self.name = name
-
     @abstractmethod
     def movement_action(self, direction: str):
       """
