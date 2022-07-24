@@ -1,9 +1,6 @@
-# from classes.plain import Plain
 from classes.mapengine import MapEngine
 from classes.jester import Jester
 from classes.plebian import Plebian
-# from classes.maptile import MapTile
-# from classes.abstract.map import Map
 from classes.abstract.character import Character
 
 
