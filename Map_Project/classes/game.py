@@ -1,8 +1,9 @@
-from classes.plain import Plain
+# from classes.plain import Plain
+from classes.mapengine import MapEngine
 from classes.jester import Jester
 from classes.plebian import Plebian
-from classes.maptile import MapTile
-from classes.abstract.map import Map
+# from classes.maptile import MapTile
+# from classes.abstract.map import Map
 from classes.abstract.character import Character
 
 
@@ -14,21 +15,34 @@ class Game():
     MOVE = ["move", "m"]
 
     def __init__(self):
-        self.map = None
+        # self.map = None
         self.characters = {}
+
+        # Engines to help run the game.
+        self.map_engine = None
+
+    def set_map_engine(self, map_engine):
+        """
+        Helper function to help with unit tests.
+        """
+        self.map_engine = map_engine
 
     def run(self):
         """
         This runs the game as a whole. There might be an more appropriate place
         for this, but for now I'm putting all of the logic in the "run" method.
         """
-        self.initialize_map()
+        # Initializing the engines should really go into a set up or something.
+        # Do this when we make the EntityEngine().
+        self.map_engine = MapEngine()
+        self.map_engine.initialize_map()
+        # self.initialize_map()
 
         user_input = input("Now give me a command, type 'help' for a list of available commands - ")
         while user_input.lower() not in self.TERMINATE:
 
             if user_input.lower() in self.RENDER:
-                self.render()
+                self.map_engine.render()
 
             if user_input.lower() in self.HELP:
                 self.display_game_commands()
@@ -36,7 +50,7 @@ class Game():
             if user_input.lower() in self.CREATE:
                 character = self.create_character()
                 self.set_character_position(character)
-                self.add_entity_to_map(character)
+                self.map_engine.add_entity_to_map(character)
 
             if user_input.lower() in self.MOVE:
                 self.move_character()
@@ -45,86 +59,86 @@ class Game():
 
         print("Goodbye, human.")
 
-    def set_map(self, map: Map):
-        if not isinstance(map, Map):
-            raise TypeError("Unable to attach Map Type obect to Game.")
-        self.map = map
+    # def set_map(self, map: Map):
+    #     if not isinstance(map, Map):
+    #         raise TypeError("Unable to attach Map Type obect to Game.")
+    #     self.map = map
 
-    def set_maptile_occupant(self, occupant: Character, map_tile: MapTile):
-        # RE: Type Checking - while I enforce the occupant to be a character,
-        #     I could foresee other "entity" types occupying a map space.
-        if occupant == None:
-            map_tile.occupant = occupant
-        elif not isinstance(occupant, Character):
-            raise TypeError("Cannot make a non-character a map occupant!")
-        else:
-            map_tile.occupant = occupant
+    # def set_maptile_occupant(self, occupant: Character, map_tile: MapTile):
+    #     # RE: Type Checking - while I enforce the occupant to be a character,
+    #     #     I could foresee other "entity" types occupying a map space.
+    #     if occupant == None:
+    #         map_tile.occupant = occupant
+    #     elif not isinstance(occupant, Character):
+    #         raise TypeError("Cannot make a non-character a map occupant!")
+    #     else:
+    #         map_tile.occupant = occupant
 
-    def add_entity_to_map(self, entity):
-        """
-        This takes an entity (E.G., Character) and adds it to the map.
+    # def add_entity_to_map(self, entity):
+    #     """
+    #     This takes an entity (E.G., Character) and adds it to the map.
 
-        Note the entity doesn't HAVE to be a character, which is why I didn't
-        enforce type checking. I'm just thinking in the future if... say...
-        we added non-character entities like a treasure chest or something.
-        """
-        if self.map == None:
-            raise ValueError("There is no map associated with the game!")
+    #     Note the entity doesn't HAVE to be a character, which is why I didn't
+    #     enforce type checking. I'm just thinking in the future if... say...
+    #     we added non-character entities like a treasure chest or something.
+    #     """
+    #     if self.map == None:
+    #         raise ValueError("There is no map associated with the game!")
 
-        x_cord = entity.x
-        y_cord = entity.y
+    #     x_cord = entity.x
+    #     y_cord = entity.y
 
-        # Need to do - add error checking.
-        if not self.map.grid[x_cord][y_cord].occupant:
-            self.set_maptile_occupant(entity, self.map.grid[x_cord][y_cord])
-        else:
-            # AttributeError might not be the appropriate error to raise here?
-            raise AttributeError("Map space is already occupied!")
+    #     # Need to do - add error checking.
+    #     if not self.map.grid[x_cord][y_cord].occupant:
+    #         self.set_maptile_occupant(entity, self.map.grid[x_cord][y_cord])
+    #     else:
+    #         # AttributeError might not be the appropriate error to raise here?
+    #         raise AttributeError("Map space is already occupied!")
 
-    def remove_entity_from_map(self, entity):
-        """
-        We're making an assumption with this method that the entity already
-        exists on the map.
-        """
-        if self.map == None:
-            raise ValueError("There is no map associated with the game!")
+    # def remove_entity_from_map(self, entity):
+    #     """
+    #     We're making an assumption with this method that the entity already
+    #     exists on the map.
+    #     """
+    #     if self.map == None:
+    #         raise ValueError("There is no map associated with the game!")
 
-        x_cord = entity.x
-        y_cord = entity.y
+    #     x_cord = entity.x
+    #     y_cord = entity.y
 
-        # Again, need to add some error checking or something.
-        if self.map.grid[x_cord][y_cord].occupant:
-            self.set_maptile_occupant(None, self.map.grid[x_cord][y_cord])
-        else:
-            # We might need a better error message here.
-            print("{}, {} is already empty!".format(x_cord, y_cord))
+    #     # Again, need to add some error checking or something.
+    #     if self.map.grid[x_cord][y_cord].occupant:
+    #         self.set_maptile_occupant(None, self.map.grid[x_cord][y_cord])
+    #     else:
+    #         # We might need a better error message here.
+    #         print("{}, {} is already empty!".format(x_cord, y_cord))
 
-    def check_if_occupied(self, x_cord: int, y_cord: int) -> bool:
-        if self.map == None:
-            raise ValueError("There is no map associated with the game!")
+    # def check_if_occupied(self, x_cord: int, y_cord: int) -> bool:
+    #     if self.map == None:
+    #         raise ValueError("There is no map associated with the game!")
 
-        if self.map.grid[x_cord][y_cord].occupant:
-            return True
-        else:
-            return False
+    #     if self.map.grid[x_cord][y_cord].occupant:
+    #         return True
+    #     else:
+    #         return False
 
-    def initialize_map(self):
-        """
-        TODO - I could flesh this out with more robust checks, but
-               for now I'm not going to. I know how to, but I won't
-               touch it until the need arises.
-        """
-        print("We're going to make a map. We're going to need width and height.")
-        width = input("Hey give me an width you... you... FIEND - ")
-        height = input("AND NOW GIVE ME A HEIGHT - ")
-        print("Here are the coordinates you gave - ({}, {})".format(width, height))
-        print()
+    # def initialize_map(self):
+    #     """
+    #     TODO - I could flesh this out with more robust checks, but
+    #            for now I'm not going to. I know how to, but I won't
+    #            touch it until the need arises.
+    #     """
+    #     print("We're going to make a map. We're going to need width and height.")
+    #     width = input("Hey give me an width you... you... FIEND - ")
+    #     height = input("AND NOW GIVE ME A HEIGHT - ")
+    #     print("Here are the coordinates you gave - ({}, {})".format(width, height))
+    #     print()
 
-        # Make a plain. We can implement logic later to choose our map type.
-        plain = Plain()
-        plain.initialize(int(width), int(height))
+    #     # Make a plain. We can implement logic later to choose our map type.
+    #     plain = Plain()
+    #     plain.initialize(int(width), int(height))
 
-        self.set_map(plain)
+    #     self.set_map(plain)
 
     def create_character(self):
         """
@@ -178,8 +192,12 @@ class Game():
         entity.name = str(name)
 
     def move_character(self):
+        """
+        Not sure if this method should live in the Map Engine or the Character Engine,
+        so for now it'll just live in the Game class.
+        """
         # We shouldn't need to do this check, but we have it just in case.
-        if self.map == None:
+        if self.map_engine.map == None:
             raise ValueError("There is no map associated with the game!")
 
         character_name = input("Please give the name of the character you'd like to move - ")
@@ -198,49 +216,49 @@ class Game():
         if (
             new_x_cord < 0 or
             new_y_cord < 0 or
-            new_x_cord > self.map.width or
-            new_y_cord > self.map.height
+            new_x_cord > self.map_engine.map.width or
+            new_y_cord > self.map_engine.map.height
         ):
             print("Cannot move to location! Out of bounds.")
         # Check if desired spot is occupied.
-        elif self.check_if_occupied(new_x_cord, new_y_cord):
+        elif self.map_engine.check_if_occupied(new_x_cord, new_y_cord):
             print("Cannot move to location! Already occupied.")
         else:
             # Move the character. First, remove character from map.
-            self.remove_entity_from_map(character)
+            self.map_engine.remove_entity_from_map(character)
             # Set the character's new position
             self.set_entity_position(character, new_x_cord, new_y_cord)
             # Add the character back to the map.
-            self.add_entity_to_map(character)
+            self.map_engine.add_entity_to_map(character)
 
-    def render(self):
-        """
-        Coordinate numbers would be real nice to have, but that
-        can be a strech goal and or come later.
+    # def render(self):
+    #     """
+    #     Coordinate numbers would be real nice to have, but that
+    #     can be a strech goal and or come later.
 
-        NOTE: Python prints to console from left to right, and from
-              top to bottom. Traditional maps though, read left to
-              right, bottom to top. As such, I've had to do with
-              some monkeying around with the coordinates to make
-              sure everything displays in an intuitive sense.
-        """
-        if not self.map:
-            print("There is no map you display! AUGH!")
-        elif not self.map.grid:
-            print("Map has no grid attached to it!")
-        else:
-            # TODO: Verify I got the width and height correct.
-            #       I have my doubts.
-            for i in range(self.map.height):
-                y_index = self.map.height - 1 - i
-                print(f"\n", end="")
-                for x_index in range(self.map.width):
-                    if self.map.grid[x_index][y_index].occupant:
-                        print("|{}".format(self.map.grid[x_index][y_index].occupant.icon), end="")
-                    else:
-                        print("| ", end="")
-                print("|", end="")
-        print()
+    #     NOTE: Python prints to console from left to right, and from
+    #           top to bottom. Traditional maps though, read left to
+    #           right, bottom to top. As such, I've had to do with
+    #           some monkeying around with the coordinates to make
+    #           sure everything displays in an intuitive sense.
+    #     """
+    #     if not self.map:
+    #         print("There is no map you display! AUGH!")
+    #     elif not self.map.grid:
+    #         print("Map has no grid attached to it!")
+    #     else:
+    #         # TODO: Verify I got the width and height correct.
+    #         #       I have my doubts.
+    #         for i in range(self.map.height):
+    #             y_index = self.map.height - 1 - i
+    #             print(f"\n", end="")
+    #             for x_index in range(self.map.width):
+    #                 if self.map.grid[x_index][y_index].occupant:
+    #                     print("|{}".format(self.map.grid[x_index][y_index].occupant.icon), end="")
+    #                 else:
+    #                     print("| ", end="")
+    #             print("|", end="")
+    #     print()
 
     def display_game_commands(self):
         print("These are the available commands:")
