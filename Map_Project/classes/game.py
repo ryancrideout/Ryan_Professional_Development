@@ -1,4 +1,5 @@
 from classes.mapengine import MapEngine
+from classes.entityengine import EntityEngine
 from classes.jester import Jester
 from classes.plebian import Plebian
 from classes.abstract.character import Character
@@ -12,10 +13,11 @@ class Game():
     MOVE = ["move", "m"]
 
     def __init__(self):
-        self.characters = {}
+        # self.characters = {}
 
         # Engines to help run the game.
         self.map_engine = None
+        self.entity_engine = None
 
     def set_map_engine(self, map_engine):
         """
@@ -30,7 +32,10 @@ class Game():
         """
         # Initializing the engines should really go into a set up or something.
         # Do this when we make the EntityEngine().
+        # REMEMBER TO DO SOME SET UP HERE RYAAAAAAAAAN
+        # SCREEEEEEEEEEEE
         self.map_engine = MapEngine()
+        self.entity_engine = EntityEngine()
         self.map_engine.initialize_map()
 
         user_input = input("Now give me a command, type 'help' for a list of available commands - ")
