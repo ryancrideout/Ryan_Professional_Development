@@ -7,6 +7,7 @@ from classes.plebian import Plebian
 from classes.maptile import MapTile
 from classes.mapengine import MapEngine
 
+
 class TestMapEngine(unittest.TestCase):
     """
     initialize_map tests.
