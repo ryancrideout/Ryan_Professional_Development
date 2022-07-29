@@ -3,6 +3,7 @@ from classes.maptile import MapTile
 from classes.abstract.map import Map
 from classes.abstract.character import Character
 
+
 class MapEngine():
     """
     This is a class that handles all of the map related tasks.

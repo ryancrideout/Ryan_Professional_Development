@@ -1,11 +1,11 @@
 import unittest
 from unittest.mock import patch
 
-from classes.game import Game
 from classes.plain import Plain
 from classes.plebian import Plebian
 from classes.maptile import MapTile
 from classes.mapengine import MapEngine
+from classes.entityengine import EntityEngine
 
 
 class TestMapEngine(unittest.TestCase):
@@ -109,7 +109,7 @@ class TestMapEngine(unittest.TestCase):
         '''
         Default success case. We should be able to add a character to a map, no problems.
         '''
-        chump_game = Game()
+        chump_entityengine = EntityEngine()
         engine_of_eternity = MapEngine()
         some_plain = Plain()
         some_plain.initialize(10, 10)
@@ -119,7 +119,7 @@ class TestMapEngine(unittest.TestCase):
         y_cord = 2
 
         the_victim = Plebian()
-        chump_game.set_entity_position(the_victim, x_cord, y_cord)
+        chump_entityengine.set_entity_position(the_victim, x_cord, y_cord)
         engine_of_eternity.add_entity_to_map(the_victim)
 
         self.assertEqual(
@@ -139,7 +139,7 @@ class TestMapEngine(unittest.TestCase):
         be "clones" on the map, but this is worth investigation. And I dunno, it
         could get messy.
         '''
-        chump_game = Game()
+        chump_entityengine = EntityEngine()
         engine_of_eternity = MapEngine()
         some_plain = Plain()
         some_plain.initialize(10, 10)
@@ -149,7 +149,7 @@ class TestMapEngine(unittest.TestCase):
         y_cord = 2
 
         the_victim = Plebian()
-        chump_game.set_entity_position(the_victim, x_cord, y_cord)
+        chump_entityengine.set_entity_position(the_victim, x_cord, y_cord)
         engine_of_eternity.add_entity_to_map(the_victim)
 
         self.assertEqual(
@@ -163,7 +163,7 @@ class TestMapEngine(unittest.TestCase):
             self.assertTrue("Map space is already occupied!" in context.exception)
 
         # Update the position so we can re-add "the victim" to the map.
-        chump_game.set_entity_position(the_victim, x_cord + 1, y_cord + 1)
+        chump_entityengine.set_entity_position(the_victim, x_cord + 1, y_cord + 1)
         engine_of_eternity.add_entity_to_map(the_victim)
 
         self.assertEqual(
@@ -185,7 +185,7 @@ class TestMapEngine(unittest.TestCase):
         rigorous error checking. Maybe have some checks on the Character class?
         Not sure.
         '''
-        chump_game = Game()
+        chump_entityengine = EntityEngine()
         engine_of_eternity = MapEngine()
         some_plain = Plain()
         some_plain.initialize(10, 10)
@@ -195,7 +195,7 @@ class TestMapEngine(unittest.TestCase):
         y_cord = 12
 
         the_lost_one = Plebian()
-        chump_game.set_entity_position(the_lost_one, x_cord, y_cord)
+        chump_entityengine.set_entity_position(the_lost_one, x_cord, y_cord)
         with self.assertRaises(KeyError):
             engine_of_eternity.add_entity_to_map(the_lost_one)
 
@@ -207,7 +207,7 @@ class TestMapEngine(unittest.TestCase):
         Put an entity on a map and then remove it. This should be pretty
         straightforward.
         '''
-        chump_game = Game()
+        chump_entityengine = EntityEngine()
         chump_mapengine = MapEngine()
         some_plain = Plain()
         some_plain.initialize(10, 10)
@@ -217,7 +217,7 @@ class TestMapEngine(unittest.TestCase):
         y_cord = 2
 
         the_victim = Plebian()
-        chump_game.set_entity_position(the_victim, x_cord, y_cord)
+        chump_entityengine.set_entity_position(the_victim, x_cord, y_cord)
         chump_mapengine.add_entity_to_map(the_victim)
 
         # Now we remove the victim. I feel like I'm some mafia member cleaning the scene.
@@ -233,7 +233,7 @@ class TestMapEngine(unittest.TestCase):
         Create an entity, but don't add it to the map. We'll try to remove it, but won't
         be able to as, well, it just doesn't exist.
         '''
-        chump_game = Game()
+        chump_entityengine = EntityEngine()
         chump_mapengine = MapEngine()
         some_plain = Plain()
         some_plain.initialize(10, 10)
@@ -243,7 +243,7 @@ class TestMapEngine(unittest.TestCase):
         y_cord = 2
 
         mr_waffles = Plebian()
-        chump_game.set_entity_position(mr_waffles, x_cord, y_cord)
+        chump_entityengine.set_entity_position(mr_waffles, x_cord, y_cord)
 
         chump_mapengine.remove_entity_from_map(mr_waffles)
         mock_print.assert_called_with("{}, {} is already empty!".format(x_cord, y_cord))
@@ -254,14 +254,14 @@ class TestMapEngine(unittest.TestCase):
 
         At this point though I feel like I'm testing the compiler more than anything else.
         '''
-        chump_game = Game()
+        chump_entityengine = EntityEngine()
         chump_mapengine = MapEngine()
 
         x_cord = 2
         y_cord = 2
 
         some_guy = Plebian()
-        chump_game.set_entity_position(some_guy, x_cord, y_cord)
+        chump_entityengine.set_entity_position(some_guy, x_cord, y_cord)
 
         with self.assertRaises(ValueError) as context:
             chump_mapengine.remove_entity_from_map(some_guy)
@@ -405,7 +405,7 @@ class TestMapEngine(unittest.TestCase):
 
         "True."
         """
-        chump_game = Game()
+        chump_entityengine = EntityEngine()
         mappy_mapengine = MapEngine()
         the_void = Plain()
         the_void.initialize(10, 10)
@@ -415,7 +415,7 @@ class TestMapEngine(unittest.TestCase):
         y_cord = 3
 
         master_of_the_universe = Plebian()
-        chump_game.set_entity_position(master_of_the_universe, x_cord, y_cord)
+        chump_entityengine.set_entity_position(master_of_the_universe, x_cord, y_cord)
         mappy_mapengine.add_entity_to_map(master_of_the_universe)
 
         self.assertEqual(
