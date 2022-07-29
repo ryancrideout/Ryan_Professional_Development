@@ -1,8 +1,9 @@
 import unittest
 
-from classes.plebian import Plebian
-from classes.jester import Jester
 from classes.game import Game
+from classes.jester import Jester
+from classes.plebian import Plebian
+from classes.entityengine import EntityEngine
 
 """
 Note that here we're just testing the character classes in general here -
@@ -32,10 +33,10 @@ class TestCharacters(unittest.TestCase):
         they all work.
         """
         epic_plebian = Plebian()
-        chump_game = Game()
+        chump_entityengine = EntityEngine()
         x_cord = 3
         y_cord = 3
-        chump_game.set_entity_position(epic_plebian, x_cord, y_cord)
+        chump_entityengine.set_entity_position(epic_plebian, x_cord, y_cord)
         # Test the UP direction.
         for direction in epic_plebian.UP:
             result = epic_plebian.movement_action(direction)
@@ -71,10 +72,10 @@ class TestCharacters(unittest.TestCase):
         class doesn't recognize. The Plebian shouldn't end up moving at all.
         """
         epic_plebian = Plebian()
-        chump_game = Game()
+        chump_entityengine = EntityEngine()
         x_cord = 3
         y_cord = 3
-        chump_game.set_entity_position(epic_plebian, x_cord, y_cord)
+        chump_entityengine.set_entity_position(epic_plebian, x_cord, y_cord)
 
         chump_direction = "Go where the wind blows"
 
@@ -107,10 +108,10 @@ class TestCharacters(unittest.TestCase):
         straightforward compared to that of the Plebian class.
         """
         epic_jester = Jester()
-        chump_game = Game()
+        chump_entityengine = EntityEngine()
         x_cord = 8
         y_cord = 8
-        chump_game.set_entity_position(epic_jester, x_cord, y_cord)
+        chump_entityengine.set_entity_position(epic_jester, x_cord, y_cord)
         # Test the UP direction.
         for direction in epic_jester.UP:
             result = epic_jester.movement_action(direction)
@@ -146,10 +147,10 @@ class TestCharacters(unittest.TestCase):
         Business as usual, baybee?
         """
         epic_jester = Jester()
-        chump_game = Game()
+        chump_entityengine = EntityEngine()
         x_cord = 8
         y_cord = 8
-        chump_game.set_entity_position(epic_jester, x_cord, y_cord)
+        chump_entityengine.set_entity_position(epic_jester, x_cord, y_cord)
 
         chump_direction = "MEMORIES BROKEN THE TRUTH GOES UNSPOKEN"
 
