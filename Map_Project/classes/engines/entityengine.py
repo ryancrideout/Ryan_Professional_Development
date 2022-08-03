@@ -64,15 +64,12 @@ class EntityEngine():
     def set_entity_name(self, entity, name):
         entity.name = str(name)
 
-    def move_character(self, map_engine: MapEngine):
+    # Be sure to remove the map_engine
+    def move_character(self, map_engine):
         """
         Not sure if this method should live in the Map Engine or the Character Engine,
         so for now it'll just live in the Game class.
         """
-        # We shouldn't need to do this check, but we have it just in case.
-        if map_engine.map == None:
-            raise ValueError("There is no map associated with the game!")
-
         character_name = input("Please give the name of the character you'd like to move - ")
         if character_name not in self.characters:
             raise ValueError("{} is not a character that exists on the map!".format(character_name))
@@ -82,6 +79,10 @@ class EntityEngine():
         desired_position = character.movement_action(direction)
         new_x_cord = desired_position[0]
         new_y_cord = desired_position[1]
+
+        # We shouldn't need to do this check, but we have it just in case.
+        if map_engine.map == None:
+            raise ValueError("There is no map associated with the game!")
 
         # Out of bounds error checking - if the new_x_cord and new_y_cord are _greater_
         # then the map width and height, then I'll print a message and leave it.
@@ -102,4 +103,4 @@ class EntityEngine():
             # Set the character's new position
             self.set_entity_position(character, new_x_cord, new_y_cord)
             # Add the character back to the map.
-            map_engine.add_entity_to_map(character)
+            map_engine.add_entity_to_map(map_engine.map, character)

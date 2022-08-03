@@ -10,8 +10,8 @@ class MapEngine():
 
     To be operated by the game class.
     """
-    def __init__(self):
-        self.map = None
+    # def __init__(self):
+    #     self.map = None
 
     def initialize_map(self):
         """
@@ -29,14 +29,15 @@ class MapEngine():
         plain = Plain()
         plain.initialize(int(width), int(height))
 
-        self.set_map(plain)
+        return plain
+        # self.set_map(plain)
 
-    def set_map(self, map: Map):
-        if not isinstance(map, Map):
-            raise TypeError("Unable to attach Map Type obect to Game.")
-        self.map = map
+    # def set_map(self, map: Map):
+    #     if not isinstance(map, Map):
+    #         raise TypeError("Unable to attach Map Type obect to Game.")
+    #     self.map = map
 
-    def render(self):
+    def render(self, map: Map):
         """
         Coordinate numbers would be real nice to have, but that
         can be a strech goal and or come later.
@@ -47,25 +48,25 @@ class MapEngine():
               some monkeying around with the coordinates to make
               sure everything displays in an intuitive sense.
         """
-        if not self.map:
+        if not map:
             print("There is no map you display! AUGH!")
-        elif not self.map.grid:
+        elif not map.grid:
             print("Map has no grid attached to it!")
         else:
             # TODO: Verify I got the width and height correct.
             #       I have my doubts.
-            for i in range(self.map.height):
-                y_index = self.map.height - 1 - i
+            for i in range(map.height):
+                y_index = map.height - 1 - i
                 print(f"\n", end="")
-                for x_index in range(self.map.width):
-                    if self.map.grid[x_index][y_index].occupant:
-                        print("|{}".format(self.map.grid[x_index][y_index].occupant.icon), end="")
+                for x_index in range(map.width):
+                    if map.grid[x_index][y_index].occupant:
+                        print("|{}".format(map.grid[x_index][y_index].occupant.icon), end="")
                     else:
                         print("| ", end="")
                 print("|", end="")
         print()
 
-    def add_entity_to_map(self, entity):
+    def add_entity_to_map(self, map: Map, entity):
         """
         This takes an entity (E.G., Character) and adds it to the map.
 
@@ -73,18 +74,22 @@ class MapEngine():
         enforce type checking. I'm just thinking in the future if... say...
         we added non-character entities like a treasure chest or something.
         """
-        if self.map == None:
+        if map == None:
             raise ValueError("There is no map associated with the game!")
 
         x_cord = entity.x
         y_cord = entity.y
 
         # Need to do - add error checking.
-        if not self.map.grid[x_cord][y_cord].occupant:
-            self.set_maptile_occupant(entity, self.map.grid[x_cord][y_cord])
+        if not map.grid[x_cord][y_cord].occupant:
+            self.set_maptile_occupant(entity, map.grid[x_cord][y_cord])
         else:
             # AttributeError might not be the appropriate error to raise here?
             raise AttributeError("Map space is already occupied!")
+
+    #
+    # Progress check - we got to here.
+    #
 
     def remove_entity_from_map(self, entity):
         """

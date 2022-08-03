@@ -1,5 +1,7 @@
-from classes.mapengine import MapEngine
-from classes.entityengine import EntityEngine
+from classes.abstract.map import Map
+from classes.engines.mapengine import MapEngine
+from classes.engines.entityengine import EntityEngine
+from classes.engines.movementengine import MovementEngine
 
 
 class Game():
@@ -10,9 +12,12 @@ class Game():
     MOVE = ["move", "m"]
 
     def __init__(self):
+        self.map = None
+
         # Engines to help run the game.
         self.map_engine = None
         self.entity_engine = None
+        self.movement_engine = None
 
     def set_map_engine(self, map_engine):
         """
@@ -25,6 +30,12 @@ class Game():
         # but as codebase expands this could be good to have.
         self.map_engine = MapEngine()
         self.entity_engine = EntityEngine()
+        self.movement_engine = MovementEngine()
+
+    def set_map(self, map: Map):
+        if not isinstance(map, Map):
+            raise TypeError("Unable to attach Map Type obect to Game.")
+        self.map = map
 
     def run(self):
         """
@@ -32,13 +43,14 @@ class Game():
         for this, but for now I'm putting all of the logic in the "run" method.
         """
         self.set_up()
-        self.map_engine.initialize_map()
+        # self.map_engine.initialize_map()
+        self.map = self.map_engine.initialize_map()
 
         user_input = input("Now give me a command, type 'help' for a list of available commands - ")
         while user_input.lower() not in self.TERMINATE:
 
             if user_input.lower() in self.RENDER:
-                self.map_engine.render()
+                self.map_engine.render(self.map)
 
             if user_input.lower() in self.HELP:
                 self.display_game_commands()
@@ -46,7 +58,7 @@ class Game():
             if user_input.lower() in self.CREATE:
                 character = self.entity_engine.create_character()
                 self.entity_engine.set_character_position(character)
-                self.map_engine.add_entity_to_map(character)
+                self.map_engine.add_entity_to_map(self.map, character)
 
             if user_input.lower() in self.MOVE:
                 self.entity_engine.move_character(self.map_engine)
