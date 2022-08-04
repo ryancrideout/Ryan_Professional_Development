@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 
 from classes.game import Game
+from classes.plain import Plain
 
 
 class TestGame(unittest.TestCase):
@@ -92,6 +93,31 @@ class TestGame(unittest.TestCase):
         # The game should run (and close), and with this pass we should only have the
         # map set for game, so it should NOT be "None".
         self.assertNotEqual(super_game.map_engine.map, None)
+
+    """
+    set map tests.
+    """
+    def test_set_map_success_case(self):
+        game_of_tomorrow = Game()
+        # New Game should have no map set yet.
+        self.assertEqual(game_of_tomorrow.map, None)
+
+        # Note that a Plain IS a map. Specifically, a
+        # Plain is a subclass of Map.
+        some_plain = Plain()
+        game_of_tomorrow.set_map(some_plain)
+        self.assertEqual(game_of_tomorrow.map, some_plain)
+
+    def test_set_map_failure_case(self):
+        game_of_tomorrow = Game()
+        # New Game should have no map set yet.
+        self.assertEqual(game_of_tomorrow.map, None)
+
+        # Unfortunately we can't attach sexy beasts to games.
+        with self.assertRaises(TypeError) as context:
+            game_of_tomorrow.set_map("Hi I'm a sexy beast.")
+
+            self.assertTrue("Unable to attach Map Type obect to Game." in context.exception)
 
     """
     display_game_command tests.
