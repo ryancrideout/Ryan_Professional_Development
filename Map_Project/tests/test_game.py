@@ -62,9 +62,9 @@ class TestGame(unittest.TestCase):
         crazy_game.run()
 
         # After all of that tom-foolery we should have a map attached to the game.
-        self.assertNotEqual(crazy_game.map_engine.map, None)
+        self.assertNotEqual(crazy_game.map, None)
         self.assertNotEqual(
-            crazy_game.map_engine.map.grid[int(x)][int(y) + 1].occupant,
+            crazy_game.map.grid[int(x)][int(y) + 1].occupant,
             None
         )
 
@@ -92,7 +92,7 @@ class TestGame(unittest.TestCase):
 
         # The game should run (and close), and with this pass we should only have the
         # map set for game, so it should NOT be "None".
-        self.assertNotEqual(super_game.map_engine.map, None)
+        self.assertNotEqual(super_game.map, None)
 
     """
     set map tests.

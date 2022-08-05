@@ -5,15 +5,15 @@ from classes.game import Game
 from classes.plain import Plain
 from classes.plebian import Plebian
 from classes.maptile import MapTile
-from classes.mapengine import MapEngine
-from classes.entityengine import EntityEngine
+from classes.engines.mapengine import MapEngine
+from classes.engines.entityengine import EntityEngine
 
 
 class TestMapEngine(unittest.TestCase):
     """
     initialize_map tests.
     """
-    @patch('classes.mapengine.input', create=True)
+    @patch('classes.engines.mapengine.input', create=True)
     def test_initialize_map_SUCCESS_case(self, mocked_input):
         """
         Simple case of initializing a map and assigning it to the game.
@@ -27,13 +27,14 @@ class TestMapEngine(unittest.TestCase):
         y_cord = 8
         mocked_input.side_effect = [x_cord, y_cord]
         a_mapengine = MapEngine()
-        a_mapengine.initialize_map()
+        chump_map = a_mapengine.initialize_map()
 
-        self.assertTrue(isinstance(a_mapengine.map, Plain))
-        self.assertEqual(a_mapengine.map.width, x_cord)
-        self.assertEqual(a_mapengine.map.height, y_cord)
+        # self.assertTrue(isinstance(a_mapengine.map, Plain))
+        self.assertTrue(isinstance(chump_map, Plain))
+        self.assertEqual(chump_map.width, x_cord)
+        self.assertEqual(chump_map.height, y_cord)
 
-    @patch('classes.mapengine.input', create=True)
+    @patch('classes.engines.mapengine.input', create=True)
     def test_initialize_map_FAILURE_case(self, mocked_input):
         """
         Going to crash this method by giving it some string inputs.
@@ -100,7 +101,7 @@ class TestMapEngine(unittest.TestCase):
         engine_of_eternity.add_entity_to_map(some_plain, the_victim)
 
         self.assertEqual(
-            engine_of_eternity.map.grid[x_cord][y_cord].occupant,
+            just_a_game.map.grid[x_cord][y_cord].occupant,
             the_victim
         )
 

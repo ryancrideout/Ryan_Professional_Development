@@ -1,7 +1,6 @@
 from classes.jester import Jester
 from classes.plebian import Plebian
 from classes.abstract.character import Character
-from classes.mapengine import MapEngine
 
 
 class EntityEngine():
