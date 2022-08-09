@@ -1,4 +1,6 @@
 from classes.abstract.map import Map
+from classes.abstract.character import Character
+
 from classes.engines.mapengine import MapEngine
 from classes.engines.entityengine import EntityEngine
 from classes.engines.movementengine import MovementEngine
@@ -13,6 +15,7 @@ class Game():
 
     def __init__(self):
         self.map = None
+        self.characters = {}
 
         # Engines to help run the game.
         self.map_engine = None
@@ -37,6 +40,11 @@ class Game():
             raise TypeError("Unable to attach Map Type obect to Game.")
         self.map = map
 
+    def add_character_to_character_list(self, character: Character):
+        if not isinstance(character, Character):
+            raise TypeError("Unable to add character type object to the Game's character list.")
+        self.characters[character.name] = character
+
     def run(self):
         """
         This runs the game as a whole. There might be an more appropriate place
@@ -57,11 +65,12 @@ class Game():
 
             if user_input.lower() in self.CREATE:
                 character = self.entity_engine.create_character()
+                self.add_character_to_character_list(character)
                 self.entity_engine.set_character_position(character)
                 self.map_engine.add_entity_to_map(self.map, character)
 
             if user_input.lower() in self.MOVE:
-                self.entity_engine.move_character(self.map_engine)
+                self.movement_engine.move_entity(self.map_engine)
 
             user_input = input("Now give me another command - type 'help' for help - ")
 

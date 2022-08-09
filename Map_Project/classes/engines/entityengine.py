@@ -9,8 +9,8 @@ class EntityEngine():
 
     To be operated by the game class.
     """
-    def __init__(self):
-        self.characters = {}
+    # def __init__(self):
+    #     self.characters = {}
 
     def create_character(self):
         """
@@ -39,7 +39,7 @@ class EntityEngine():
 
         return character
 
-    def set_character_position(self, character):
+    def set_character_position(self, character: Character):
         # Note that we check for character type, but we might need to expand this later
         # to include more classes. Not 100% sure where I stand on this yet.
         if not isinstance(character, Character):
@@ -63,43 +63,43 @@ class EntityEngine():
     def set_entity_name(self, entity, name):
         entity.name = str(name)
 
-    # Be sure to remove the map_engine
-    def move_character(self, map_engine):
-        """
-        Not sure if this method should live in the Map Engine or the Character Engine,
-        so for now it'll just live in the Game class.
-        """
-        character_name = input("Please give the name of the character you'd like to move - ")
-        if character_name not in self.characters:
-            raise ValueError("{} is not a character that exists on the map!".format(character_name))
-        character = self.characters[character_name]
-        direction = input("What direction would you like to move {}? - ".format(character.name))
+    # # Be sure to remove the map_engine
+    # def move_character(self, map_engine):
+    #     """
+    #     Not sure if this method should live in the Map Engine or the Character Engine,
+    #     so for now it'll just live in the Game class.
+    #     """
+    #     character_name = input("Please give the name of the character you'd like to move - ")
+    #     if character_name not in self.characters:
+    #         raise ValueError("{} is not a character that exists on the map!".format(character_name))
+    #     character = self.characters[character_name]
+    #     direction = input("What direction would you like to move {}? - ".format(character.name))
 
-        desired_position = character.movement_action(direction)
-        new_x_cord = desired_position[0]
-        new_y_cord = desired_position[1]
+    #     desired_position = character.movement_action(direction)
+    #     new_x_cord = desired_position[0]
+    #     new_y_cord = desired_position[1]
 
-        # We shouldn't need to do this check, but we have it just in case.
-        if map_engine.map == None:
-            raise ValueError("There is no map associated with the game!")
+    #     # We shouldn't need to do this check, but we have it just in case.
+    #     if map_engine.map == None:
+    #         raise ValueError("There is no map associated with the game!")
 
-        # Out of bounds error checking - if the new_x_cord and new_y_cord are _greater_
-        # then the map width and height, then I'll print a message and leave it.
-        # I think this is okay, but I have this nagging feeling that this is somehow incorrect...
-        if (
-            new_x_cord < 0 or
-            new_y_cord < 0 or
-            new_x_cord > map_engine.map.width or
-            new_y_cord > map_engine.map.height
-        ):
-            print("Cannot move to location! Out of bounds.")
-        # Check if desired spot is occupied.
-        elif map_engine.check_if_occupied(new_x_cord, new_y_cord):
-            print("Cannot move to location! Already occupied.")
-        else:
-            # Move the character. First, remove character from map.
-            map_engine.remove_entity_from_map(character)
-            # Set the character's new position
-            self.set_entity_position(character, new_x_cord, new_y_cord)
-            # Add the character back to the map.
-            map_engine.add_entity_to_map(map_engine.map, character)
+    #     # Out of bounds error checking - if the new_x_cord and new_y_cord are _greater_
+    #     # then the map width and height, then I'll print a message and leave it.
+    #     # I think this is okay, but I have this nagging feeling that this is somehow incorrect...
+    #     if (
+    #         new_x_cord < 0 or
+    #         new_y_cord < 0 or
+    #         new_x_cord > map_engine.map.width or
+    #         new_y_cord > map_engine.map.height
+    #     ):
+    #         print("Cannot move to location! Out of bounds.")
+    #     # Check if desired spot is occupied.
+    #     elif map_engine.check_if_occupied(new_x_cord, new_y_cord):
+    #         print("Cannot move to location! Already occupied.")
+    #     else:
+    #         # Move the character. First, remove character from map.
+    #         map_engine.remove_entity_from_map(character)
+    #         # Set the character's new position
+    #         self.set_entity_position(character, new_x_cord, new_y_cord)
+    #         # Add the character back to the map.
+    #         map_engine.add_entity_to_map(map_engine.map, character)
