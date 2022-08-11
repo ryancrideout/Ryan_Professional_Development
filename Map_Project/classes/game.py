@@ -70,7 +70,14 @@ class Game():
                 self.map_engine.add_entity_to_map(self.map, character)
 
             if user_input.lower() in self.MOVE:
-                self.movement_engine.move_entity(self.map_engine)
+                self.movement_engine.move_entity(
+                    self.map, 
+                    self.characters,
+                    self.map_engine.check_if_occupied,
+                    self.map_engine.remove_entity_from_map,
+                    self.entity_engine.set_entity_position,
+                    self.map_engine.add_entity_to_map
+                )
 
             user_input = input("Now give me another command - type 'help' for help - ")
 
