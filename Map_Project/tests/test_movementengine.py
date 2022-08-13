@@ -1,6 +1,12 @@
 import unittest
 from unittest.mock import patch
 
+from classes.game import Game
+from classes.engines.mapengine import MapEngine
+from classes.engines.entityengine import EntityEngine
+from classes.engines.movementengine import MovementEngine
+
+
 class TestMovementEngine(unittest.TestCase):
     """
     move_character tests.
@@ -46,43 +52,65 @@ class TestMovementEngine(unittest.TestCase):
         chump_game = Game()
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
-        chump_game.set_map_engine(the_mapengine)
-        the_mapengine.initialize_map()
+        # chump_game.set_map_engine(the_mapengine)
+        thug_map = the_mapengine.initialize_map()
+        chump_game.set_map(thug_map)
         plebian_isaac = the_entityengine.create_character()
         the_entityengine.set_character_position(plebian_isaac)
-        the_mapengine.add_entity_to_map(plebian_isaac)
+        the_mapengine.add_entity_to_map(thug_map, plebian_isaac)
+        chump_game.add_character_to_character_list(plebian_isaac)
 
         # Make sure Isaac is on the map.
         self.assertEqual(
-            the_mapengine.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
+            chump_game.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
             plebian_isaac
         )
 
         # Move Isaac "Up"
-        the_entityengine.move_character(the_mapengine)
+        the_entityengine.move_character(
+            chump_game.map,
+            chump_game.characters,
+            the_mapengine,
+            the_entityengine,
+        )
         self.assertEqual(
-            the_mapengine.map.grid[int(char_starting_x)][int(char_starting_y) + 1].occupant,
+            chump_game.map.grid[int(char_starting_x)][int(char_starting_y) + 1].occupant,
             plebian_isaac
         )
 
         # Move Isaac "Down"
-        the_entityengine.move_character(the_mapengine)
+        the_entityengine.move_character(
+            chump_game.map,
+            chump_game.characters,
+            the_mapengine,
+            the_entityengine,
+        )
         self.assertEqual(
-            the_mapengine.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
+            chump_game.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
             plebian_isaac
         )
 
         # Move Isaac "Left"
-        the_entityengine.move_character(the_mapengine)
+        the_entityengine.move_character(
+            chump_game.map,
+            chump_game.characters,
+            the_mapengine,
+            the_entityengine,
+        )
         self.assertEqual(
-            the_mapengine.map.grid[int(char_starting_x) - 1][int(char_starting_y)].occupant,
+            chump_game.map.grid[int(char_starting_x) - 1][int(char_starting_y)].occupant,
             plebian_isaac
         )
 
         # Move Isaac "Right"
-        the_entityengine.move_character(the_mapengine)
+        the_entityengine.move_character(
+            chump_game.map,
+            chump_game.characters,
+            the_mapengine,
+            the_entityengine,
+        )
         self.assertEqual(
-            the_mapengine.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
+            chump_game.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
             plebian_isaac
         )
 
@@ -105,11 +133,17 @@ class TestMovementEngine(unittest.TestCase):
         chump_game = Game()
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
-        chump_game.set_map_engine(the_mapengine)
-        the_mapengine.initialize_map()
+        # chump_game.set_map_engine(the_mapengine)
+        thug_map = the_mapengine.initialize_map()
+        chump_game.set_map(thug_map)
 
         with self.assertRaises(ValueError) as context:
-            the_entityengine.move_character(the_mapengine)
+            the_entityengine.move_character(
+                chump_game.map,
+                chump_game.characters,
+                the_mapengine,
+                the_entityengine,
+            )
 
             self.assertTrue("{} is not a character that exists on the map!".format(character_name) in context.exception)
 
@@ -152,36 +186,44 @@ class TestMovementEngine(unittest.TestCase):
         chump_game = Game()
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
-        chump_game.set_map_engine(the_mapengine)
-        the_mapengine.initialize_map()
+        # chump_game.set_map_engine(the_mapengine)
+        thug_map = the_mapengine.initialize_map()
+        chump_game.set_map(thug_map)
 
         # Add Isaac to the map and make sure he's there.
         plebian_isaac = the_entityengine.create_character()
+        chump_game.add_character_to_character_list(plebian_isaac)
         the_entityengine.set_character_position(plebian_isaac)
-        the_mapengine.add_entity_to_map(plebian_isaac)
+        the_mapengine.add_entity_to_map(thug_map, plebian_isaac)
         self.assertEqual(
-            the_mapengine.map.grid[int(char_1_starting_x)][int(char_1_starting_y)].occupant,
+            chump_game.map.grid[int(char_1_starting_x)][int(char_1_starting_y)].occupant,
             plebian_isaac
         )
 
         # Add Darius to the map and make sure he's there.
         jester_darius = the_entityengine.create_character()
+        chump_game.add_character_to_character_list(jester_darius)
         the_entityengine.set_character_position(jester_darius)
-        the_mapengine.add_entity_to_map(jester_darius)
+        the_mapengine.add_entity_to_map(thug_map, jester_darius)
         self.assertEqual(
-            the_mapengine.map.grid[int(char_2_starting_x)][int(char_2_starting_y)].occupant,
+            chump_game.map.grid[int(char_2_starting_x)][int(char_2_starting_y)].occupant,
             jester_darius
         )
 
         # Attempt to move Isaac up. This shouldn't fly as Darius is already in that spot.
         # As such Isaac should still be in the same spot. Same as Darius, for that matter.
-        the_entityengine.move_character(the_mapengine)
+        the_entityengine.move_character(
+            chump_game.map,
+            chump_game.characters,
+            the_mapengine,
+            the_entityengine,
+        )
         self.assertEqual(
-            the_mapengine.map.grid[int(char_1_starting_x)][int(char_1_starting_y)].occupant,
+            chump_game.map.grid[int(char_1_starting_x)][int(char_1_starting_y)].occupant,
             plebian_isaac
         )
         self.assertEqual(
-            the_mapengine.map.grid[int(char_2_starting_x)][int(char_2_starting_y)].occupant,
+            chump_game.map.grid[int(char_2_starting_x)][int(char_2_starting_y)].occupant,
             jester_darius
         )
 
@@ -211,14 +253,20 @@ class TestMovementEngine(unittest.TestCase):
         chump_game = Game()
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
-        chump_game.set_map_engine(the_mapengine)
+        # chump_game.set_map_engine(the_mapengine)
         plebian_isaac = the_entityengine.create_character()
+        chump_game.add_character_to_character_list(plebian_isaac)
         the_entityengine.set_character_position(plebian_isaac)
         # Normally the error would occur here, but that's not what we're trying to test.
         # chump_game.add_entity_to_map(plebian_isaac)
 
         with self.assertRaises(ValueError) as context:
-            the_entityengine.move_character(the_mapengine)
+            the_entityengine.move_character(
+                chump_game.map,
+                chump_game.characters,
+                the_mapengine,
+                the_entityengine,
+            )
 
             self.assertTrue("There is no map associated with the game!" in context.exception)
 
@@ -252,22 +300,29 @@ class TestMovementEngine(unittest.TestCase):
         chump_game = Game()
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
-        chump_game.set_map_engine(the_mapengine)
-        the_mapengine.initialize_map()
+        # chump_game.set_map_engine(the_mapengine)
+        thug_map = the_mapengine.initialize_map()
+        chump_game.set_map(thug_map)
         plebian_isaac = the_entityengine.create_character()
+        chump_game.add_character_to_character_list(plebian_isaac)
         the_entityengine.set_character_position(plebian_isaac)
-        the_mapengine.add_entity_to_map(plebian_isaac)
+        the_mapengine.add_entity_to_map(thug_map, plebian_isaac)
 
         # Make sure Isaac is on the map.
         self.assertEqual(
-            the_mapengine.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
+            chump_game.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
             plebian_isaac
         )
 
         # Try to move Isaac "Down". He shouldn't end up moving anywhere so his position
         # should stay the same.
-        the_entityengine.move_character(the_mapengine)
+        the_entityengine.move_character(
+            chump_game.map,
+            chump_game.characters,
+            the_mapengine,
+            the_entityengine,
+        )
         self.assertEqual(
-            the_mapengine.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
+            chump_game.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
             plebian_isaac
         )
