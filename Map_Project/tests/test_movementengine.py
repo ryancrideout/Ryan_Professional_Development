@@ -9,10 +9,10 @@ from classes.engines.movementengine import MovementEngine
 
 class TestMovementEngine(unittest.TestCase):
     """
-    move_character tests.
+    move_entity tests.
     """
     @patch('builtins.input', create=True)
-    def test_move_character_success_case(self, mocked_input):
+    def test_move_entity_success_case(self, mocked_input):
         """
         Simple test to see if we can move a character on the map. Note that the movement
         actions are tied to the character classes themselves, so we'll test those more
@@ -52,6 +52,7 @@ class TestMovementEngine(unittest.TestCase):
         chump_game = Game()
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
+        movement_engine = MovementEngine()
         # chump_game.set_map_engine(the_mapengine)
         thug_map = the_mapengine.initialize_map()
         chump_game.set_map(thug_map)
@@ -67,7 +68,7 @@ class TestMovementEngine(unittest.TestCase):
         )
 
         # Move Isaac "Up"
-        the_entityengine.move_character(
+        movement_engine.move_entity(
             chump_game.map,
             chump_game.characters,
             the_mapengine,
@@ -79,7 +80,7 @@ class TestMovementEngine(unittest.TestCase):
         )
 
         # Move Isaac "Down"
-        the_entityengine.move_character(
+        movement_engine.move_entity(
             chump_game.map,
             chump_game.characters,
             the_mapengine,
@@ -91,7 +92,7 @@ class TestMovementEngine(unittest.TestCase):
         )
 
         # Move Isaac "Left"
-        the_entityengine.move_character(
+        movement_engine.move_entity(
             chump_game.map,
             chump_game.characters,
             the_mapengine,
@@ -103,7 +104,7 @@ class TestMovementEngine(unittest.TestCase):
         )
 
         # Move Isaac "Right"
-        the_entityengine.move_character(
+        movement_engine.move_entity(
             chump_game.map,
             chump_game.characters,
             the_mapengine,
@@ -115,7 +116,7 @@ class TestMovementEngine(unittest.TestCase):
         )
 
     @patch('builtins.input', create=True)
-    def test_move_character_non_existent_character_case(self, mocked_input):
+    def test_move_entity_non_existent_character_case(self, mocked_input):
         """
         Try to move a character who just doesn't exist. Big sad.
         """
@@ -133,12 +134,13 @@ class TestMovementEngine(unittest.TestCase):
         chump_game = Game()
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
+        movement_engine = MovementEngine()
         # chump_game.set_map_engine(the_mapengine)
         thug_map = the_mapengine.initialize_map()
         chump_game.set_map(thug_map)
 
         with self.assertRaises(ValueError) as context:
-            the_entityengine.move_character(
+            movement_engine.move_entity(
                 chump_game.map,
                 chump_game.characters,
                 the_mapengine,
@@ -148,7 +150,7 @@ class TestMovementEngine(unittest.TestCase):
             self.assertTrue("{} is not a character that exists on the map!".format(character_name) in context.exception)
 
     @patch('builtins.input', create=True)
-    def test_move_character_already_occupied_case(self, mocked_input):
+    def test_move_entity_already_occupied_case(self, mocked_input):
         """
         Now we try to move a chracter to a spot that is already occupied.
 
@@ -186,6 +188,7 @@ class TestMovementEngine(unittest.TestCase):
         chump_game = Game()
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
+        movement_engine = MovementEngine()
         # chump_game.set_map_engine(the_mapengine)
         thug_map = the_mapengine.initialize_map()
         chump_game.set_map(thug_map)
@@ -212,7 +215,7 @@ class TestMovementEngine(unittest.TestCase):
 
         # Attempt to move Isaac up. This shouldn't fly as Darius is already in that spot.
         # As such Isaac should still be in the same spot. Same as Darius, for that matter.
-        the_entityengine.move_character(
+        movement_engine.move_entity(
             chump_game.map,
             chump_game.characters,
             the_mapengine,
@@ -228,7 +231,7 @@ class TestMovementEngine(unittest.TestCase):
         )
 
     @patch('builtins.input', create=True)
-    def test_move_character_NO_MAP_case(self, mocked_input):
+    def test_move_entity_NO_MAP_case(self, mocked_input):
         """
         Try to move a character when we have no map attached to the game. As expected this
         should fail. If not, go order a pizza or something. Maybe? I don't know.
@@ -253,6 +256,7 @@ class TestMovementEngine(unittest.TestCase):
         chump_game = Game()
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
+        movement_engine = MovementEngine()
         # chump_game.set_map_engine(the_mapengine)
         plebian_isaac = the_entityengine.create_character()
         chump_game.add_character_to_character_list(plebian_isaac)
@@ -261,7 +265,7 @@ class TestMovementEngine(unittest.TestCase):
         # chump_game.add_entity_to_map(plebian_isaac)
 
         with self.assertRaises(ValueError) as context:
-            the_entityengine.move_character(
+            movement_engine.move_entity(
                 chump_game.map,
                 chump_game.characters,
                 the_mapengine,
@@ -271,7 +275,7 @@ class TestMovementEngine(unittest.TestCase):
             self.assertTrue("There is no map associated with the game!" in context.exception)
 
     @patch('builtins.input', create=True)
-    def test_move_character_OUT_OF_BOUNDS_case(self, mocked_input):
+    def test_move_entity_OUT_OF_BOUNDS_case(self, mocked_input):
         """
         Try to move a character out of bounds - a message should be printed (though we won't see it),
         but we won't end up moving the character at all.
@@ -300,6 +304,7 @@ class TestMovementEngine(unittest.TestCase):
         chump_game = Game()
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
+        movement_engine = MovementEngine()
         # chump_game.set_map_engine(the_mapengine)
         thug_map = the_mapengine.initialize_map()
         chump_game.set_map(thug_map)
@@ -316,7 +321,7 @@ class TestMovementEngine(unittest.TestCase):
 
         # Try to move Isaac "Down". He shouldn't end up moving anywhere so his position
         # should stay the same.
-        the_entityengine.move_character(
+        movement_engine.move_entity(
             chump_game.map,
             chump_game.characters,
             the_mapengine,

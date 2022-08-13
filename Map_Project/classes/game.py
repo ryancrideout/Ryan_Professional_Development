@@ -65,6 +65,7 @@ class Game():
 
             if user_input.lower() in self.CREATE:
                 character = self.entity_engine.create_character()
+                # TODO: Add error checking so we don't 'overwrite' characters
                 self.add_character_to_character_list(character)
                 self.entity_engine.set_character_position(character)
                 self.map_engine.add_entity_to_map(self.map, character)

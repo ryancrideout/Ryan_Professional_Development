@@ -47,11 +47,11 @@ class MovementEngine():
         ):
             print("Cannot move to location! Out of bounds.")
         # Check if desired spot is occupied.
-        elif mapengine.check_if_occupied(new_x_cord, new_y_cord):
+        elif mapengine.check_if_occupied(map, new_x_cord, new_y_cord):
             print("Cannot move to location! Already occupied.")
         else:
             # Move the character. First, remove character from map.
-            mapengine.remove_entity_from_map(character)
+            mapengine.remove_entity_from_map(map, character)
             # Set the character's new position
             entityengine.set_entity_position(character, new_x_cord, new_y_cord)
             # Add the character back to the map.

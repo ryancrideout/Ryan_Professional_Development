@@ -5,7 +5,7 @@ from unittest.mock import patch
 from classes.jester import Jester
 from classes.plebian import Plebian
 # from classes.mapengine import MapEngine
-from classes.entityengine import EntityEngine
+from classes.engines.entityengine import EntityEngine
 
 
 class TestEntityEngine(unittest.TestCase):

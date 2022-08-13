@@ -35,7 +35,7 @@ class EntityEngine():
 
         name = input("Please give the character a name. - ")
         self.set_entity_name(character, name)
-        self.characters[character.name] = character
+        # self.characters[character.name] = character
 
         return character
 
