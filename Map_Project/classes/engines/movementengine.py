@@ -1,4 +1,6 @@
 from classes.abstract.map import Map
+from classes.engines.mapengine import MapEngine
+from classes.engines.entityengine import EntityEngine
 
 
 class MovementEngine():
@@ -13,10 +15,8 @@ class MovementEngine():
         self, 
         map: Map, 
         characters: dict,
-        check_if_occupied: function,
-        remove_entity_from_map: function,
-        set_entity_position: function,
-        add_entity_to_map: function,
+        mapengine: MapEngine,
+        entityengine: EntityEngine,
         ):
         """
         Not sure if this method should live in the Map Engine or the Character Engine,
@@ -47,15 +47,15 @@ class MovementEngine():
         ):
             print("Cannot move to location! Out of bounds.")
         # Check if desired spot is occupied.
-        elif check_if_occupied(new_x_cord, new_y_cord):
+        elif mapengine.check_if_occupied(new_x_cord, new_y_cord):
             print("Cannot move to location! Already occupied.")
         else:
             # Move the character. First, remove character from map.
-            remove_entity_from_map(character)
+            mapengine.remove_entity_from_map(character)
             # Set the character's new position
-            set_entity_position(character, new_x_cord, new_y_cord)
+            entityengine.set_entity_position(character, new_x_cord, new_y_cord)
             # Add the character back to the map.
-            add_entity_to_map(map, character)
+            mapengine.add_entity_to_map(map, character)
 
 
 
