@@ -1,9 +1,8 @@
 import unittest
 
-from classes.game import Game
 from classes.jester import Jester
 from classes.plebian import Plebian
-from classes.entityengine import EntityEngine
+from classes.engines.entityengine import EntityEngine
 
 """
 Note that here we're just testing the character classes in general here -
