@@ -10,9 +10,6 @@ class MapEngine():
 
     To be operated by the game class.
     """
-    # def __init__(self):
-    #     self.map = None
-
     def initialize_map(self):
         """
         TODO - I could flesh this out with more robust checks, but
@@ -30,12 +27,6 @@ class MapEngine():
         plain.initialize(int(width), int(height))
 
         return plain
-        # self.set_map(plain)
-
-    # def set_map(self, map: Map):
-    #     if not isinstance(map, Map):
-    #         raise TypeError("Unable to attach Map Type obect to Game.")
-    #     self.map = map
 
     def render(self, map: Map):
         """

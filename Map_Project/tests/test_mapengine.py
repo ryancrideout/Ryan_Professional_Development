@@ -29,7 +29,6 @@ class TestMapEngine(unittest.TestCase):
         a_mapengine = MapEngine()
         chump_map = a_mapengine.initialize_map()
 
-        # self.assertTrue(isinstance(a_mapengine.map, Plain))
         self.assertTrue(isinstance(chump_map, Plain))
         self.assertEqual(chump_map.width, x_cord)
         self.assertEqual(chump_map.height, y_cord)
@@ -75,7 +74,6 @@ class TestMapEngine(unittest.TestCase):
         engine_of_eternity = MapEngine()
         some_plain = Plain()
         some_plain.initialize(10, 10)
-        # engine_of_eternity.set_map(some_plain)
 
         with self.assertRaises(AttributeError) as context:
             engine_of_eternity.add_entity_to_map(some_plain, (42 + 300))
@@ -347,7 +345,6 @@ class TestMapEngine(unittest.TestCase):
         the_engine = MapEngine()
         smallest_plain = Plain()
         smallest_plain.initialize(3, 3)
-        # the_game.set_map(smallest_plain)
 
         x_cord = 40000
         y_cord = 40000
@@ -368,7 +365,6 @@ class TestMapEngine(unittest.TestCase):
         mappy_mapengine = MapEngine()
         plane = Plain()
         plane.initialize(10, 10)
-        # mappy_mapengine.set_map(plane)
 
         x_cord = 8
         y_cord = 8
@@ -392,7 +388,6 @@ class TestMapEngine(unittest.TestCase):
         mappy_mapengine = MapEngine()
         the_void = Plain()
         the_void.initialize(10, 10)
-        # mappy_mapengine.set_map(the_void)
 
         x_cord = 3
         y_cord = 3

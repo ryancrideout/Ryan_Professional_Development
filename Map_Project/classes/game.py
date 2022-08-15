@@ -51,7 +51,6 @@ class Game():
         for this, but for now I'm putting all of the logic in the "run" method.
         """
         self.set_up()
-        # self.map_engine.initialize_map()
         self.map = self.map_engine.initialize_map()
 
         user_input = input("Now give me a command, type 'help' for a list of available commands - ")

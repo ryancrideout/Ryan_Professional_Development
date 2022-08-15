@@ -53,9 +53,10 @@ class TestMovementEngine(unittest.TestCase):
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
         movement_engine = MovementEngine()
-        # chump_game.set_map_engine(the_mapengine)
+
         thug_map = the_mapengine.initialize_map()
         chump_game.set_map(thug_map)
+
         plebian_isaac = the_entityengine.create_character()
         the_entityengine.set_character_position(plebian_isaac)
         the_mapengine.add_entity_to_map(thug_map, plebian_isaac)
@@ -135,7 +136,7 @@ class TestMovementEngine(unittest.TestCase):
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
         movement_engine = MovementEngine()
-        # chump_game.set_map_engine(the_mapengine)
+
         thug_map = the_mapengine.initialize_map()
         chump_game.set_map(thug_map)
 
@@ -189,7 +190,7 @@ class TestMovementEngine(unittest.TestCase):
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
         movement_engine = MovementEngine()
-        # chump_game.set_map_engine(the_mapengine)
+
         thug_map = the_mapengine.initialize_map()
         chump_game.set_map(thug_map)
 
@@ -257,7 +258,7 @@ class TestMovementEngine(unittest.TestCase):
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
         movement_engine = MovementEngine()
-        # chump_game.set_map_engine(the_mapengine)
+
         plebian_isaac = the_entityengine.create_character()
         chump_game.add_character_to_character_list(plebian_isaac)
         the_entityengine.set_character_position(plebian_isaac)
@@ -305,9 +306,10 @@ class TestMovementEngine(unittest.TestCase):
         the_mapengine = MapEngine()
         the_entityengine = EntityEngine()
         movement_engine = MovementEngine()
-        # chump_game.set_map_engine(the_mapengine)
+
         thug_map = the_mapengine.initialize_map()
         chump_game.set_map(thug_map)
+
         plebian_isaac = the_entityengine.create_character()
         chump_game.add_character_to_character_list(plebian_isaac)
         the_entityengine.set_character_position(plebian_isaac)
@@ -331,3 +333,4 @@ class TestMovementEngine(unittest.TestCase):
             chump_game.map.grid[int(char_starting_x)][int(char_starting_y)].occupant,
             plebian_isaac
         )
+        

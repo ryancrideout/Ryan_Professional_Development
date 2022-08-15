@@ -1,6 +1,5 @@
 import unittest
 
-from classes.game import Game
 from classes.jester import Jester
 from classes.plebian import Plebian
 from classes.engines.entityengine import EntityEngine

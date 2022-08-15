@@ -10,7 +10,6 @@ class MovementEngine():
 
     Also, then, the problem is what happens when we need multiple engines?
     """
-
     def move_entity(
         self, 
         map: Map, 
@@ -18,10 +17,7 @@ class MovementEngine():
         mapengine: MapEngine,
         entityengine: EntityEngine,
         ):
-        """
-        Not sure if this method should live in the Map Engine or the Character Engine,
-        so for now it'll just live in the Game class.
-        """
+
         character_name = input("Please give the name of the character you'd like to move - ")
         if character_name not in characters:
             raise ValueError("{} is not a character that exists on the map!".format(character_name))
@@ -56,20 +52,3 @@ class MovementEngine():
             entityengine.set_entity_position(character, new_x_cord, new_y_cord)
             # Add the character back to the map.
             mapengine.add_entity_to_map(map, character)
-
-
-
-        # Okay so... what do we need here?
-        # - Character
-        # - New X & Y Coordinates
-        # - Map
-        #    - Whether or not the space is occupied
-
-        # Then the question has to be, how do we get all of that information?
-
-        # I think maybe we put the variables back into the Game Class? Then we can pass them around.
-
-        # WHAT NOT TO DO:
-        # Pass in the entire engine, all of the variables we need aren't necessarily an engine.
-
-        # Possibly we take the whole method and put in here? 
