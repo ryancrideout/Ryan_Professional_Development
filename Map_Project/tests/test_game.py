@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 from classes.game import Game
 from classes.plain import Plain
+from classes.engines.mapengine import MapEngine
 
 
 class TestGame(unittest.TestCase):
@@ -118,6 +119,31 @@ class TestGame(unittest.TestCase):
             game_of_tomorrow.set_map("Hi I'm a sexy beast.")
 
             self.assertTrue("Unable to attach Map Type obect to Game." in context.exception)
+
+    """
+    set map engine tests.
+    """
+    def test_set_map_engine_success_case(self):
+        game_of_tomorrow = Game()
+        # New Game should have no map set yet.
+        self.assertEqual(game_of_tomorrow.map_engine, None)
+
+        # Note that MapEngine is well, a MapEngine
+        engine_of_eternity = MapEngine()
+        game_of_tomorrow.set_map_engine(engine_of_eternity)
+        self.assertEqual(game_of_tomorrow.map_engine, engine_of_eternity)
+
+    def test_set_map_engine_failure_case(self):
+        game_of_tomorrow = Game()
+        # New Game should have no map set yet.
+        self.assertEqual(game_of_tomorrow.map_engine, None)
+
+        # Insane rabbits in fact, do not count as Map Engines.
+        with self.assertRaises(TypeError) as context:
+            game_of_tomorrow.set_map_engine("Hello I'm an insane rabbit.")
+
+            self.assertTrue("Unable to attach MapEngine Type obect to Game." in context.exception)
+
 
     """
     display_game_command tests.

@@ -26,6 +26,8 @@ class Game():
         """
         Helper function to help with unit tests.
         """
+        if not isinstance(map_engine, MapEngine):
+            raise TypeError("Unable to attach MapEngine Type obect to Game.")
         self.map_engine = map_engine
 
     def set_up(self):
