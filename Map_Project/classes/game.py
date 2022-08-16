@@ -22,18 +22,20 @@ class Game():
         self.entity_engine = None
         self.movement_engine = None
 
-    def set_map_engine(self, map_engine):
-        """
-        Helper function to help with unit tests.
-        """
-        self.map_engine = map_engine
-
     def set_up(self):
         # Function to set up all of our variables. For now, this might not be necessary,
         # but as codebase expands this could be good to have.
         self.map_engine = MapEngine()
         self.entity_engine = EntityEngine()
         self.movement_engine = MovementEngine()
+
+    def set_map_engine(self, map_engine):
+        """
+        Helper function to help with unit tests.
+        """
+        if not isinstance(map_engine, MapEngine):
+            raise TypeError("Unable to attach MapEngine Type obect to Game.")
+        self.map_engine = map_engine
 
     def set_map(self, map: Map):
         if not isinstance(map, Map):
@@ -43,7 +45,10 @@ class Game():
     def add_character_to_character_list(self, character: Character):
         if not isinstance(character, Character):
             raise TypeError("Unable to add character type object to the Game's character list.")
-        self.characters[character.name] = character
+        if character.name in self.characters:
+            print("Warning! Character with same name already exists in character list.")
+        else:
+            self.characters[character.name] = character
 
     def run(self):
         """

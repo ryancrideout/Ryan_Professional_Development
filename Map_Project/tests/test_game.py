@@ -3,6 +3,8 @@ from unittest.mock import patch
 
 from classes.game import Game
 from classes.plain import Plain
+from classes.engines.mapengine import MapEngine
+from classes.engines.entityengine import EntityEngine
 
 
 class TestGame(unittest.TestCase):
@@ -118,6 +120,96 @@ class TestGame(unittest.TestCase):
             game_of_tomorrow.set_map("Hi I'm a sexy beast.")
 
             self.assertTrue("Unable to attach Map Type obect to Game." in context.exception)
+
+    """
+    set map engine tests.
+    """
+    def test_set_map_engine_success_case(self):
+        game_of_tomorrow = Game()
+        # New Game should have no map set yet.
+        self.assertEqual(game_of_tomorrow.map_engine, None)
+
+        # Note that MapEngine is well, a MapEngine
+        engine_of_eternity = MapEngine()
+        game_of_tomorrow.set_map_engine(engine_of_eternity)
+        self.assertEqual(game_of_tomorrow.map_engine, engine_of_eternity)
+
+    def test_set_map_engine_failure_case(self):
+        game_of_tomorrow = Game()
+        # New Game should have no map set yet.
+        self.assertEqual(game_of_tomorrow.map_engine, None)
+
+        # Insane rabbits in fact, do not count as Map Engines.
+        with self.assertRaises(TypeError) as context:
+            game_of_tomorrow.set_map_engine("Hello I'm an insane rabbit.")
+
+            self.assertTrue("Unable to attach MapEngine Type obect to Game." in context.exception)
+
+    """
+    add character to character list tests.
+    """
+    @patch('builtins.input', create=True)
+    def test_add_character_to_character_list_success_case(self, mocked_input):
+        game_of_tomorrow = Game()
+        # Create a character. It shouldn't be in the game yet.
+        best_entityengine = EntityEngine()
+        character_type = "plebian"
+        name = "THE DUCK"
+        mocked_input.side_effect = [character_type, name]
+        duck = best_entityengine.create_character()
+
+        # New Game should have no characters set yet.
+        self.assertEqual(game_of_tomorrow.characters, {})
+
+        game_of_tomorrow.add_character_to_character_list(duck)
+        self.assertEqual(game_of_tomorrow.characters[name], duck)
+
+    def test_add_character_to_character_list_failure_case(self):
+        game_of_tomorrow = Game()
+        # New Game should have no characters set yet.
+        self.assertEqual(game_of_tomorrow.characters, {})
+
+        # Controverisal opinions can't be added to the character list!
+        with self.assertRaises(TypeError) as context:
+            game_of_tomorrow.add_character_to_character_list("Controversial Opinions")
+
+            self.assertTrue("Unable to add character type object to the Game's character list." in context.exception)
+
+    @patch('builtins.input', create=True)
+    def test_add_character_to_character_list_DUPLICATE_NAME_case(self, mocked_input):
+        """
+        Try to add a character to the game, but another character with the same name
+        already exists in the character list. The new character should not be added
+        if there exists a character with the same name.
+        """
+        game_of_tomorrow = Game()
+        best_entityengine = EntityEngine()
+        character_type_plebian = "plebian"
+        character_type_jester = "jester"
+        name = "THE DUCK"
+        mocked_input.side_effect = [
+            character_type_plebian, name,
+            character_type_jester, name
+        ]
+        duck = best_entityengine.create_character()
+        second_duck = best_entityengine.create_character()
+
+        # Assert that the ducks have the same name, but aren't the same entity.
+        self.assertEqual(duck.name, second_duck.name)
+        self.assertNotEqual(duck, second_duck)
+
+        # New Game should have no characters set yet.
+        self.assertEqual(game_of_tomorrow.characters, {})
+
+        # Add the first character no problem.
+        game_of_tomorrow.add_character_to_character_list(duck)
+        self.assertEqual(game_of_tomorrow.characters[name], duck)
+
+        # Add the "second duck" which shares a name. Shouldn't be added, original
+        # index should still be a duck.
+        game_of_tomorrow.add_character_to_character_list(second_duck)
+        self.assertEqual(game_of_tomorrow.characters[name], duck)
+        self.assertNotEqual(game_of_tomorrow.characters[name], second_duck)
 
     """
     display_game_command tests.
